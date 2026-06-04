@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宣传栏规划设计大师系统 | Pro-Billboard Design v3.2</title>
+    <style>
+        :root {
+            --bg: #f5f3ef;
+            --bg-hero-gradient: radial-gradient(ellipse at 15% 5%, rgba(184,148,75,0.04) 0%, transparent 60%), radial-gradient(ellipse at 85% 95%, rgba(184,148,75,0.03) 0%, transparent 60%);
+            --surface: #ffffff;
+            --surface-alt: #fafaf8;
+            --gold: #b8944b;
+            --gold-light: #d4b872;
+            --gold-dark: #8b691f;
+            --gold-glow: rgba(184,148,75,0.35);
+            --gold-glow-hover: rgba(184,148,75,0.5);
+            --text: #1a1a1a;
+            --text-secondary: #5c5c5c;
+            --text-muted: #8a8a8a;
+            --border: #e5e1da;
+            --border-light: #f0ece5;
+            --accent: #c9a050;
+            --accent-bg: #fdf8f0;
+            --accent-bg-border: rgba(184,148,75,0.2);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+            --top-bar-bg: rgba(255,255,255,0.92);
+            --prompt-bg: #fafaf7;
+            --scheme-index-color: rgba(184,148,75,0.07);
+            --scrollbar-thumb: #d0ccc4;
+            --theme-toggle-bg: #2d2d2d;
+            --theme-toggle-icon: #d4b872;
+            --input-bg: #fafaf8;
+            --input-bg-focus: #ffffff;
+            --chip-hover-bg: #fdf8f0;
+            --collapsible-hover-bg: #fdf8f0;
+            --color-swatch-border: rgba(0,0,0,0.06);
+            --logo-gradient: linear-gradient(135deg, #b8944b 0%, #8b691f 100%);
+            --btn-generate-bg: linear-gradient(135deg, #b8944b 0%, #8b691f 100%);
+            --btn-generate-hover: linear-gradient(135deg, #d4b872 0%, #b8944b 100%);
+        }
+        [data-theme="dark"] {
+            --bg: #1a1a1d;
+            --bg-hero-gradient: radial-gradient(ellipse at 15% 5%, rgba(184,148,75,0.06) 0%, transparent 60%);
+            --surface: #242428;
+            --surface-alt: #2a2a2f;
+            --gold: #c9a050;
+            --gold-light: #d4b872;
+            --gold-dark: #a07828;
+            --gold-glow: rgba(201,160,80,0.4);
+            --gold-glow-hover: rgba(201,160,80,0.6);
+            --text: #e4e4e6;
+            --text-secondary: #b0b0b5;
+            --text-muted: #7a7a80;
+            --border: #3a3a40;
+            --border-light: #333338;
+            --accent: #c9a050;
+            --accent-bg: #2a2520;
+            --accent-bg-border: rgba(201,160,80,0.25);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+            --top-bar-bg: rgba(30,30,34,0.9);
+            --prompt-bg: #1e1e22;
+            --scheme-index-color: rgba(201,160,80,0.1);
+            --scrollbar-thumb: #4a4a50;
+            --theme-toggle-bg: #c9a050;
+            --theme-toggle-icon: #1a1a1d;
+            --input-bg: #2a2a2f;
+            --input-bg-focus: #333338;
+            --chip-hover-bg: #2a2520;
+            --collapsible-hover-bg: #2a2520;
+            --color-swatch-border: rgba(255,255,255,0.12);
+            --logo-gradient: linear-gradient(135deg, #c9a050 0%, #a07828 100%);
+            --btn-generate-bg: linear-gradient(135deg, #c9a050 0%, #a07828 100%);
+            --btn-generate-hover: linear-gradient(135deg, #d4b872 0%, #c9a050 100%);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 15px;
+        }
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+            background: var(--bg);
+            background-image: var(--bg-hero-gradient);
+            color: var(--text);
+            line-height: 1.6;
+            letter-spacing: 0.015em;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+        }
+        .top-bar {
+            background: var(--top-bar-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1.5rem;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-sm);
+            gap: 1rem;
+            flex-wrap: wrap;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+        .top-bar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Georgia', 'Noto Serif SC', 'STSong', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+        .top-bar .logo .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--logo-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .top-bar .badge {
+            font-size: 0.68rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--accent-bg);
+            color: var(--gold-dark);
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            border: 1px solid var(--accent-bg-border);
+            white-space: nowrap;
+        }
+        .theme-toggle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            outline: none;
+        }
+        .theme-toggle-btn:hover {
+            border-color: var(--gold-light);
+            box-shadow: 0 0 0 6px rgba(184,148,75,0.1);
+        }
+        .theme-toggle-btn .icon-sun,
+        .theme-toggle-btn .icon-moon {
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+        .theme-toggle-btn .icon-sun {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+            color: #f0c040;
+        }
+        .theme-toggle-btn .icon-moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+            color: #5c5c8a;
+        }
+        [data-theme="dark"] .theme-toggle-btn .icon-sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+        [data-theme="dark"] .theme-toggle-btn .icon-moon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+        .main-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+        }
+        .hero-section {
+            text-align: center;
+            padding: 1rem 0 1.5rem;
+        }
+        .hero-section .master-title {
+            font-family: 'Georgia', 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text);
+        }
+        .hero-section .master-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+        .divider-line {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            margin: 0.8rem auto;
+            border-radius: 2px;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 1.3rem 1.4rem;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.9rem;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .card-title {
+            font-family: 'Georgia', 'Noto Serif SC', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+        .section-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            background: var(--surface-alt);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+        }
+        .input-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .input-group label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+        }
+        .input-group input,
+        .input-group textarea {
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: var(--input-bg);
+            color: var(--text);
+            outline: none;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(184,148,75,0.06);
+            background: var(--input-bg-focus);
+        }
+        .btn-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .btn-chip {
+            padding: 6px 13px;
+            border-radius: 22px;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            transition: all 0.25s ease;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            user-select: none;
+        }
+        .btn-chip:hover {
+            border-color: var(--gold-light);
+            color: var(--gold-dark);
+            background: var(--chip-hover-bg);
+        }
+        .btn-chip.selected {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+            font-weight: 600;
+            box-shadow: 0 2px 8px var(--gold-glow);
+        }
+        .btn-chip.selected::after {
+            content: ' ✓';
+            font-size: 0.65rem;
+        }
+        .btn-chip.selected:hover {
+            background: var(--gold-dark);
+        }
+        .multi-hint {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+        .color-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+        .color-swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            padding: 5px 3px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            min-width: 44px;
+            position: relative;
+        }
+        .color-swatch:hover {
+            border-color: var(--gold-light);
+            background: var(--accent-bg);
+        }
+        .color-swatch.selected {
+            border-color: var(--gold);
+            background: var(--accent-bg);
+        }
+        .color-swatch.selected::after {
+            content: '✓';
+            position: absolute;
+            top: -6px;
+            right: -4px;
+            background: var(--gold);
+            color: #fff;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            font-size: 0.55rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .color-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--color-swatch-border);
+        }
+        .color-name {
+            font-size: 0.58rem;
+            color: var(--text-secondary);
+            max-width: 50px;
+            text-align: center;
+        }
+        .generate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 36px;
+            background: var(--btn-generate-bg);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            box-shadow: 0 6px 24px var(--gold-glow);
+            transition: all 0.4s ease;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px var(--gold-glow-hover);
+            background: var(--btn-generate-hover);
+        }
+        .scheme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+            gap: 1.3rem;
+            margin-top: 1.5rem;
+        }
+        .scheme-card {
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 1.3rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        .scheme-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+        .scheme-index {
+            position: absolute;
+            top: 8px;
+            right: 14px;
+            font-family: 'Georgia', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--scheme-index-color);
+            z-index: 0;
+        }
+        .scheme-name {
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            z-index: 1;
+            padding-right: 35px;
+        }
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.6rem;
+            font-size: 0.73rem;
+        }
+        .info-tag {
+            background: var(--surface-alt);
+            padding: 3px 9px;
+            border-radius: 14px;
+            font-size: 0.67rem;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        .info-tag.accent {
+            background: var(--accent-bg);
+            color: var(--gold-dark);
+            border-color: var(--accent-bg-border);
+        }
+        .prompt-box {
+            background: var(--prompt-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 0.8rem;
+            padding-right: 75px;
+            font-size: 0.73rem;
+            position: relative;
+            word-break: break-all;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .prompt-text {
+            line-height: 1.45;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            padding: 6px 14px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            z-index: 2;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .copy-btn:hover {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+            box-shadow: 0 2px 8px var(--gold-glow);
+        }
+        .copy-btn:active {
+            transform: translateY(-50%) scale(0.94);
+            transition: all 0.08s ease;
+        }
+        .copy-btn.copied {
+            background: #4caf84;
+            color: #fff;
+            border-color: #4caf84;
+            box-shadow: 0 2px 12px rgba(76,175,132,0.3);
+        }
+        .collapsible-content {
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .collapsible-content.collapsed {
+            max-height: 220px;
+        }
+        .collapsible-content.expanded {
+            max-height: 12000px;
+        }
+        .collapsible-toggle {
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--gold-dark);
+            font-weight: 600;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .scheme-card:nth-child(1) {
+            animation-delay: 0.02s;
+        }
+        .scheme-card:nth-child(2) {
+            animation-delay: 0.04s;
+        }
+        .scheme-card:nth-child(3) {
+            animation-delay: 0.06s;
+        }
+        .scheme-card:nth-child(4) {
+            animation-delay: 0.08s;
+        }
+        .scheme-card:nth-child(5) {
+            animation-delay: 0.1s;
+        }
+        .scheme-card:nth-child(6) {
+            animation-delay: 0.12s;
+        }
+        .scheme-card:nth-child(7) {
+            animation-delay: 0.14s;
+        }
+        .scheme-card:nth-child(8) {
+            animation-delay: 0.16s;
+        }
+        .scheme-card:nth-child(9) {
+            animation-delay: 0.18s;
+        }
+        .scheme-card:nth-child(10) {
+            animation-delay: 0.2s;
+        }
+        .scheme-card:nth-child(11) {
+            animation-delay: 0.22s;
+        }
+        .scheme-card:nth-child(12) {
+            animation-delay: 0.24s;
+        }
+        .scheme-card:nth-child(13) {
+            animation-delay: 0.26s;
+        }
+        .scheme-card:nth-child(14) {
+            animation-delay: 0.28s;
+        }
+        .scheme-card:nth-child(15) {
+            animation-delay: 0.3s;
+        }
+        .scheme-card:nth-child(16) {
+            animation-delay: 0.32s;
+        }
+        .scheme-card:nth-child(17) {
+            animation-delay: 0.34s;
+        }
+        .scheme-card:nth-child(18) {
+            animation-delay: 0.36s;
+        }
+        .scheme-card:nth-child(19) {
+            animation-delay: 0.38s;
+        }
+        .scheme-card:nth-child(20) {
+            animation-delay: 0.4s;
+        }
+        @media (max-width:768px) {
+            .scheme-grid {
+                grid-template-columns: 1fr;
+            }
+            .btn-chip {
+                padding: 5px 10px;
+                font-size: 0.68rem;
+            }
+            .main-container {
+                padding: 0.8rem;
+            }
+            .prompt-box {
+                padding-right: 70px;
+            }
+            .copy-btn {
+                right: 6px;
+                padding: 5px 10px;
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo"><div class="icon">◈</div><span>宣传栏规划设计大师系统</span></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <button class="theme-toggle-btn" id="themeToggleBtn" title="切换白天/黑夜模式">
+                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <div class="badge">PRO·v3.2·复制修复版</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="hero-section">
+            <div class="master-title">宣传栏智能规划与创意生成引擎</div>
+            <div class="master-subtitle">全正面展示·按钮直选·明暗双模·数据库完整·复制可用</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- 自定义输入区域 -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>自定义输入区域</span><span class="section-label">自由填写·可选</span></div>
+            <div class="input-row">
+                <div class="input-group"><label>📝 宣传栏主题名称</label><input type="text" id="customTheme" placeholder="例如：喜迎国庆·党建文化宣传栏..."></div>
+                <div class="input-group"><label>📝 补充说明</label><input type="text" id="customNotes" placeholder="特殊需求、风格偏好..."></div>
+            </div>
+            <div class="input-group" style="margin-top:0.3rem;"><label>📝 详细设计描述</label><textarea id="customDescription" rows="2" placeholder="详细描述受众、文化元素、环境融合等..."></textarea></div>
+        </div>
+
+        <!-- 宣传栏类型自动识别（按钮单选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>宣传栏类型自动识别</span><span class="section-label">单选必选</span></div>
+            <div class="btn-grid" id="typeBtns">
+                <button class="btn-chip" data-val="党建宣传栏">党建宣传栏</button><button class="btn-chip" data-val="企业文化宣传栏">企业文化宣传栏</button><button class="btn-chip" data-val="校园文化宣传栏">校园文化宣传栏</button><button class="btn-chip" data-val="社区宣传栏">社区宣传栏</button><button class="btn-chip selected" data-val="乡村振兴宣传栏">乡村振兴宣传栏</button><button class="btn-chip" data-val="法治宣传栏">法治宣传栏</button><button class="btn-chip" data-val="安全生产宣传栏">安全生产宣传栏</button><button class="btn-chip" data-val="廉政宣传栏">廉政宣传栏</button><button class="btn-chip" data-val="工会宣传栏">工会宣传栏</button><button class="btn-chip" data-val="医院宣传栏">医院宣传栏</button><button class="btn-chip" data-val="军队宣传栏">军队宣传栏</button><button class="btn-chip" data-val="景区宣传栏">景区宣传栏</button><button class="btn-chip" data-val="科普宣传栏">科普宣传栏</button><button class="btn-chip" data-val="环保宣传栏">环保宣传栏</button><button class="btn-chip" data-val="文明城市宣传栏">文明城市宣传栏</button><button class="btn-chip" data-val="民族团结宣传栏">民族团结宣传栏</button><button class="btn-chip" data-val="交通安全宣传栏">交通安全宣传栏</button><button class="btn-chip" data-val="消防宣传栏">消防宣传栏</button><button class="btn-chip" data-val="旅游宣传栏">旅游宣传栏</button><button class="btn-chip" data-val="商业宣传栏">商业宣传栏</button><button class="btn-chip" data-val="招商宣传栏">招商宣传栏</button><button class="btn-chip" data-val="工业园宣传栏">工业园宣传栏</button><button class="btn-chip" data-val="科技园宣传栏">科技园宣传栏</button><button class="btn-chip" data-val="教育宣传栏">教育宣传栏</button>
+            </div>
+        </div>
+
+        <!-- 安装环境自动识别（按钮单选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>安装环境自动识别</span><span class="section-label">单选必选</span></div>
+            <div class="btn-grid" id="envBtns">
+                <button class="btn-chip" data-val="室外落地式">室外落地式</button><button class="btn-chip" data-val="室内壁挂式">室内壁挂式</button><button class="btn-chip" data-val="长廊宣传栏">长廊宣传栏</button><button class="btn-chip selected" data-val="景观宣传栏">景观宣传栏</button><button class="btn-chip" data-val="广场宣传栏">广场宣传栏</button><button class="btn-chip" data-val="公园宣传栏">公园宣传栏</button><button class="btn-chip" data-val="校园宣传栏">校园宣传栏</button><button class="btn-chip" data-val="社区宣传栏">社区宣传栏</button><button class="btn-chip" data-val="园区宣传栏">园区宣传栏</button><button class="btn-chip" data-val="景区宣传栏">景区宣传栏</button><button class="btn-chip" data-val="街道宣传栏">街道宣传栏</button><button class="btn-chip" data-val="立柱宣传栏">立柱宣传栏</button><button class="btn-chip" data-val="灯箱宣传栏">灯箱宣传栏</button><button class="btn-chip" data-val="橱窗宣传栏">橱窗宣传栏</button><button class="btn-chip" data-val="数字互动宣传栏">数字互动宣传栏</button>
+            </div>
+        </div>
+
+        <!-- 设计定位自动规划（按钮单选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>设计定位自动规划</span><span class="section-label">单选必选</span></div>
+            <div class="btn-grid" id="positionBtns">
+                <button class="btn-chip" data-val="主题展示+文化传播">主题展示+文化传播</button><button class="btn-chip selected" data-val="品牌形象+视觉地标">品牌形象+视觉地标</button><button class="btn-chip" data-val="信息发布+公众教育">信息发布+公众教育</button><button class="btn-chip" data-val="互动体验+数字融合">互动体验+数字融合</button><button class="btn-chip" data-val="环境融合+艺术装置">环境融合+艺术装置</button><button class="btn-chip" data-val="历史叙事+文化记忆">历史叙事+文化记忆</button><button class="btn-chip" data-val="导览服务+空间标识">导览服务+空间标识</button>
+            </div>
+        </div>
+
+        <!-- 宣传栏结构数据库（多选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>宣传栏结构数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span></div>
+            <div class="btn-grid" id="structureBtns">
+                <button class="btn-chip" data-val="中心对称式">中心对称式</button><button class="btn-chip" data-val="左右分栏式">左右分栏式</button><button class="btn-chip" data-val="上下分层式">上下分层式</button><button class="btn-chip" data-val="三段式布局">三段式布局</button><button class="btn-chip" data-val="四宫格布局">四宫格布局</button><button class="btn-chip" data-val="九宫格布局">九宫格布局</button><button class="btn-chip" data-val="环形布局">环形布局</button><button class="btn-chip" data-val="放射式布局">放射式布局</button><button class="btn-chip" data-val="树状结构布局">树状结构布局</button><button class="btn-chip" data-val="蜂巢结构布局">蜂巢结构布局</button><button class="btn-chip" data-val="书卷展开布局">书卷展开布局</button><button class="btn-chip" data-val="翻书式布局">翻书式布局</button><button class="btn-chip" data-val="时间轴布局">时间轴布局</button><button class="btn-chip" data-val="地图导览布局">地图导览布局</button><button class="btn-chip" data-val="长卷叙事布局">长卷叙事布局</button><button class="btn-chip" data-val="文化墙布局">文化墙布局</button><button class="btn-chip" data-val="门户式布局">门户式布局</button><button class="btn-chip" data-val="牌坊式布局">牌坊式布局</button><button class="btn-chip" data-val="景观融合布局">景观融合布局</button><button class="btn-chip" data-val="艺术装置布局">艺术装置布局</button><button class="btn-chip" data-val="雕塑结合布局">雕塑结合布局</button><button class="btn-chip" data-val="异形创意布局">异形创意布局</button><button class="btn-chip" data-val="模块组合布局">模块组合布局</button><button class="btn-chip" data-val="数字屏融合布局">数字屏融合布局</button><button class="btn-chip" data-val="展馆级布局">展馆级布局</button>
+            </div>
+        </div>
+
+        <!-- 宣传栏造型数据库（多选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>宣传栏造型数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span></div>
+            <div class="btn-grid" id="shapeBtns">
+                <button class="btn-chip" data-val="长方形">长方形</button><button class="btn-chip" data-val="横向长条形">横向长条形</button><button class="btn-chip" data-val="竖向立柱形">竖向立柱形</button><button class="btn-chip" data-val="弧形">弧形</button><button class="btn-chip" data-val="半圆形">半圆形</button><button class="btn-chip" data-val="圆形">圆形</button><button class="btn-chip" data-val="波浪形">波浪形</button><button class="btn-chip" data-val="山峰形">山峰形</button><button class="btn-chip" data-val="卷轴形">卷轴形</button><button class="btn-chip" data-val="书本形">书本形</button><button class="btn-chip" data-val="展开画卷形">展开画卷形</button><button class="btn-chip" data-val="折纸形">折纸形</button><button class="btn-chip" data-val="祥云形">祥云形</button><button class="btn-chip" data-val="长城形">长城形</button><button class="btn-chip" data-val="齿轮形">齿轮形</button><button class="btn-chip" data-val="科技芯片形">科技芯片形</button><button class="btn-chip" data-val="树叶形">树叶形</button><button class="btn-chip" data-val="水滴形">水滴形</button><button class="btn-chip" data-val="火焰形">火焰形</button><button class="btn-chip" data-val="党徽融合形">党徽融合形</button><button class="btn-chip" data-val="文化牌坊形">文化牌坊形</button><button class="btn-chip" data-val="雕塑结合形">雕塑结合形</button><button class="btn-chip" data-val="艺术装置形">艺术装置形</button><button class="btn-chip" data-val="未来科技形">未来科技形</button>
+            </div>
+        </div>
+
+        <!-- 风格数据库（多选+折叠） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>风格数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span><span class="collapsible-toggle" id="styleToggle" onclick="toggleCollapsible('styleContent','styleToggle')">展开全部 ▾</span></div>
+            <div class="collapsible-content collapsed" id="styleContent">
+                <div class="btn-grid" id="styleBtns">
+                    <button class="btn-chip" data-val="现代简约风">现代简约风</button><button class="btn-chip" data-val="现代极简风">现代极简风</button><button class="btn-chip" data-val="国际极简风">国际极简风</button><button class="btn-chip" data-val="现代商务风">现代商务风</button><button class="btn-chip" data-val="现代轻奢风">现代轻奢风</button><button class="btn-chip" data-val="现代艺术风">现代艺术风</button><button class="btn-chip" data-val="现代几何风">现代几何风</button><button class="btn-chip" data-val="现代科技风">现代科技风</button><button class="btn-chip" data-val="未来科技风">未来科技风</button><button class="btn-chip" data-val="数字未来风">数字未来风</button><button class="btn-chip" data-val="赛博科技风">赛博科技风</button><button class="btn-chip" data-val="赛博朋克风">赛博朋克风</button><button class="btn-chip" data-val="元宇宙科技风">元宇宙科技风</button><button class="btn-chip" data-val="AI人工智能风">AI人工智能风</button><button class="btn-chip" data-val="大数据可视化风">大数据可视化风</button><button class="btn-chip" data-val="智慧城市风">智慧城市风</button><button class="btn-chip" data-val="高端展厅风">高端展厅风</button><button class="btn-chip" data-val="博物馆风">博物馆风</button><button class="btn-chip" data-val="科技馆风">科技馆风</button><button class="btn-chip" data-val="企业展馆风">企业展馆风</button><button class="btn-chip" data-val="规划馆风">规划馆风</button><button class="btn-chip" data-val="文化馆风">文化馆风</button><button class="btn-chip" data-val="美术馆风">美术馆风</button><button class="btn-chip" data-val="艺术展陈风">艺术展陈风</button><button class="btn-chip" data-val="商业展示风">商业展示风</button><button class="btn-chip" data-val="品牌旗舰风">品牌旗舰风</button><button class="btn-chip" data-val="工业风">工业风</button><button class="btn-chip" data-val="重工业风">重工业风</button><button class="btn-chip" data-val="机械工业风">机械工业风</button><button class="btn-chip" data-val="智能制造风">智能制造风</button><button class="btn-chip" data-val="新能源科技风">新能源科技风</button><button class="btn-chip" data-val="航天科技风">航天科技风</button><button class="btn-chip" data-val="航空科技风">航空科技风</button><button class="btn-chip" data-val="海洋科技风">海洋科技风</button><button class="btn-chip" data-val="新中式风">新中式风</button><button class="btn-chip" data-val="新亚洲风">新亚洲风</button><button class="btn-chip" data-val="新东方风">新东方风</button><button class="btn-chip" data-val="东方美学风">东方美学风</button><button class="btn-chip" data-val="禅意风">禅意风</button><button class="btn-chip" data-val="宋式美学风">宋式美学风</button><button class="btn-chip" data-val="唐风风格">唐风风格</button><button class="btn-chip" data-val="汉唐风格">汉唐风格</button><button class="btn-chip" data-val="明清宫廷风">明清宫廷风</button><button class="btn-chip" data-val="国潮风">国潮风</button><button class="btn-chip" data-val="中国传统风">中国传统风</button><button class="btn-chip" data-val="中国文化风">中国文化风</button><button class="btn-chip" data-val="中国红风格">中国红风格</button><button class="btn-chip" data-val="故宫风格">故宫风格</button><button class="btn-chip" data-val="敦煌风格">敦煌风格</button><button class="btn-chip" data-val="丝绸之路风格">丝绸之路风格</button><button class="btn-chip" data-val="非遗文化风格">非遗文化风格</button><button class="btn-chip" data-val="书院文化风格">书院文化风格</button><button class="btn-chip" data-val="徽派风格">徽派风格</button><button class="btn-chip" data-val="苏式园林风格">苏式园林风格</button><button class="btn-chip" data-val="江南园林风格">江南园林风格</button><button class="btn-chip" data-val="岭南风格">岭南风格</button><button class="btn-chip" data-val="海派风格">海派风格</button><button class="btn-chip" data-val="京派风格">京派风格</button><button class="btn-chip" data-val="晋派风格">晋派风格</button><button class="btn-chip" data-val="关中文化风格">关中文化风格</button><button class="btn-chip" data-val="客家文化风格">客家文化风格</button><button class="btn-chip" data-val="藏式文化风格">藏式文化风格</button><button class="btn-chip" data-val="民族文化风格">民族文化风格</button><button class="btn-chip" data-val="边疆文化风格">边疆文化风格</button><button class="btn-chip" data-val="草原文化风格">草原文化风格</button><button class="btn-chip" data-val="黄河文化风格">黄河文化风格</button><button class="btn-chip" data-val="长江文化风格">长江文化风格</button><button class="btn-chip" data-val="海丝文化风格">海丝文化风格</button><button class="btn-chip" data-val="乡村振兴风格">乡村振兴风格</button><button class="btn-chip" data-val="田园生态风格">田园生态风格</button><button class="btn-chip" data-val="自然生态风格">自然生态风格</button><button class="btn-chip" data-val="森林主题风格">森林主题风格</button><button class="btn-chip" data-val="湿地生态风格">湿地生态风格</button><button class="btn-chip" data-val="绿色低碳风格">绿色低碳风格</button><button class="btn-chip" data-val="环保公益风格">环保公益风格</button><button class="btn-chip" data-val="城市更新风格">城市更新风格</button><button class="btn-chip" data-val="文旅融合风格">文旅融合风格</button><button class="btn-chip" data-val="景区导览风格">景区导览风格</button><button class="btn-chip" data-val="红色党建风格">红色党建风格</button><button class="btn-chip" data-val="党建文化风格">党建文化风格</button><button class="btn-chip" data-val="廉政文化风格">廉政文化风格</button><button class="btn-chip" data-val="法治文化风格">法治文化风格</button><button class="btn-chip" data-val="军旅文化风格">军旅文化风格</button><button class="btn-chip" data-val="校园文化风格">校园文化风格</button><button class="btn-chip" data-val="书香校园风格">书香校园风格</button><button class="btn-chip" data-val="青春活力风格">青春活力风格</button><button class="btn-chip" data-val="儿童友好风格">儿童友好风格</button><button class="btn-chip" data-val="社区文化风格">社区文化风格</button><button class="btn-chip" data-val="公益宣传风格">公益宣传风格</button><button class="btn-chip" data-val="文明城市风格">文明城市风格</button><button class="btn-chip" data-val="新时代文明实践风格">新时代文明实践风格</button><button class="btn-chip" data-val="历史文化风格">历史文化风格</button><button class="btn-chip" data-val="复古怀旧风格">复古怀旧风格</button><button class="btn-chip" data-val="工业遗产风格">工业遗产风格</button><button class="btn-chip" data-val="艺术装置风格">艺术装置风格</button><button class="btn-chip" data-val="雕塑景观风格">雕塑景观风格</button><button class="btn-chip" data-val="未来装置风格">未来装置风格</button><button class="btn-chip" data-val="国际大奖风格">国际大奖风格</button><button class="btn-chip" data-val="德国红点风格">德国红点风格</button><button class="btn-chip" data-val="IF设计风格">IF设计风格</button><button class="btn-chip" data-val="建筑事务所风格">建筑事务所风格</button><button class="btn-chip" data-val="扎哈曲线风格">扎哈曲线风格</button><button class="btn-chip" data-val="参数化设计风格">参数化设计风格</button><button class="btn-chip" data-val="解构主义风格">解构主义风格</button><button class="btn-chip" data-val="超现实主义风格">超现实主义风格</button><button class="btn-chip" data-val="极繁主义风格">极繁主义风格</button><button class="btn-chip" data-val="轻法式风格">轻法式风格</button><button class="btn-chip" data-val="现代欧式风格">现代欧式风格</button><button class="btn-chip" data-val="英伦风格">英伦风格</button><button class="btn-chip" data-val="地中海风格">地中海风格</button><button class="btn-chip" data-val="北欧风格">北欧风格</button><button class="btn-chip" data-val="侘寂风格">侘寂风格</button><button class="btn-chip" data-val="高级灰风格">高级灰风格</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 色彩数据库（完整55+项色块多选+折叠） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>色彩数据库</span><span class="section-label">色块多选<span class="multi-hint">(可多选·不选则随机)</span></span><span class="collapsible-toggle" id="colorToggle" onclick="toggleCollapsible('colorContent','colorToggle')">展开全部 ▾</span></div>
+            <div class="collapsible-content collapsed" id="colorContent">
+                <div class="color-grid" id="colorGrid">
+                    <div class="color-swatch" data-val="中国红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">中国红</span></div><div class="color-swatch" data-val="国旗红"><div class="color-circle" style="background:#DE2910;"></div><span class="color-name">国旗红</span></div><div class="color-swatch" data-val="党建红"><div class="color-circle" style="background:#B22222;"></div><span class="color-name">党建红</span></div><div class="color-swatch" data-val="革命红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">革命红</span></div><div class="color-swatch" data-val="故宫红"><div class="color-circle" style="background:#9B1B30;"></div><span class="color-name">故宫红</span></div><div class="color-swatch" data-val="宫墙红"><div class="color-circle" style="background:#A52A3D;"></div><span class="color-name">宫墙红</span></div><div class="color-swatch" data-val="朱砂红"><div class="color-circle" style="background:#E34A4A;"></div><span class="color-name">朱砂红</span></div><div class="color-swatch" data-val="丹霞红"><div class="color-circle" style="background:#C8673A;"></div><span class="color-name">丹霞红</span></div><div class="color-swatch" data-val="枫叶红"><div class="color-circle" style="background:#D3543A;"></div><span class="color-name">枫叶红</span></div><div class="color-swatch" data-val="珊瑚红"><div class="color-circle" style="background:#E8735A;"></div><span class="color-name">珊瑚红</span></div><div class="color-swatch" data-val="酒红色"><div class="color-circle" style="background:#7B1A2B;"></div><span class="color-name">酒红色</span></div><div class="color-swatch" data-val="绛红色"><div class="color-circle" style="background:#6B1A1A;"></div><span class="color-name">绛红色</span></div><div class="color-swatch" data-val="中国金"><div class="color-circle" style="background:#D4A017;"></div><span class="color-name">中国金</span></div><div class="color-swatch" data-val="鎏金色"><div class="color-circle" style="background:#DAA520;"></div><span class="color-name">鎏金色</span></div><div class="color-swatch" data-val="香槟金"><div class="color-circle" style="background:#D4B872;"></div><span class="color-name">香槟金</span></div><div class="color-swatch" data-val="玫瑰金"><div class="color-circle" style="background:#C89B9B;"></div><span class="color-name">玫瑰金</span></div><div class="color-swatch" data-val="古铜金"><div class="color-circle" style="background:#B87333;"></div><span class="color-name">古铜金</span></div><div class="color-swatch" data-val="帝王金"><div class="color-circle" style="background:#C9A050;"></div><span class="color-name">帝王金</span></div><div class="color-swatch" data-val="党建红金体系"><div class="color-circle" style="background:linear-gradient(135deg,#B22222,#DAA520);"></div><span class="color-name">党建红金</span></div><div class="color-swatch" data-val="故宫红金体系"><div class="color-circle" style="background:linear-gradient(135deg,#9B1B30,#DAA520);"></div><span class="color-name">故宫红金</span></div><div class="color-swatch" data-val="黑金体系"><div class="color-circle" style="background:#1A1A1A; border:2px solid #DAA520;"></div><span class="color-name">黑金体系</span></div><div class="color-swatch" data-val="蓝金体系"><div class="color-circle" style="background:linear-gradient(135deg,#1E3A5F,#DAA520);"></div><span class="color-name">蓝金体系</span></div><div class="color-swatch" data-val="科技蓝"><div class="color-circle" style="background:#3A6FB5;"></div><span class="color-name">科技蓝</span></div><div class="color-swatch" data-val="深海蓝"><div class="color-circle" style="background:#1B3A5C;"></div><span class="color-name">深海蓝</span></div><div class="color-swatch" data-val="天空蓝"><div class="color-circle" style="background:#6BAED6;"></div><span class="color-name">天空蓝</span></div><div class="color-swatch" data-val="宝石蓝"><div class="color-circle" style="background:#2C4B7C;"></div><span class="color-name">宝石蓝</span></div><div class="color-swatch" data-val="克莱因蓝"><div class="color-circle" style="background:#002FA7;"></div><span class="color-name">克莱因蓝</span></div><div class="color-swatch" data-val="电光蓝"><div class="color-circle" style="background:#0088FF;"></div><span class="color-name">电光蓝</span></div><div class="color-swatch" data-val="未来蓝"><div class="color-circle" style="background:#00BFFF;"></div><span class="color-name">未来蓝</span></div><div class="color-swatch" data-val="赛博蓝"><div class="color-circle" style="background:#00D4FF;"></div><span class="color-name">赛博蓝</span></div><div class="color-swatch" data-val="敦煌蓝"><div class="color-circle" style="background:#3C6E8C;"></div><span class="color-name">敦煌蓝</span></div><div class="color-swatch" data-val="敦煌青"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">敦煌青</span></div><div class="color-swatch" data-val="敦煌赭石"><div class="color-circle" style="background:#C88242;"></div><span class="color-name">敦煌赭石</span></div><div class="color-swatch" data-val="敦煌金"><div class="color-circle" style="background:#D4A96A;"></div><span class="color-name">敦煌金</span></div><div class="color-swatch" data-val="青绿山水色"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">青绿山水</span></div><div class="color-swatch" data-val="石青色"><div class="color-circle" style="background:#4A7C9B;"></div><span class="color-name">石青色</span></div><div class="color-swatch" data-val="石绿色"><div class="color-circle" style="background:#5D8C6B;"></div><span class="color-name">石绿色</span></div><div class="color-swatch" data-val="竹青色"><div class="color-circle" style="background:#6B9B5A;"></div><span class="color-name">竹青色</span></div><div class="color-swatch" data-val="生态绿"><div class="color-circle" style="background:#4A8C5C;"></div><span class="color-name">生态绿</span></div><div class="color-swatch" data-val="莫兰迪粉"><div class="color-circle" style="background:#C4AFA0;"></div><span class="color-name">莫兰迪粉</span></div><div class="color-swatch" data-val="莫兰迪灰"><div class="color-circle" style="background:#B8A99A;"></div><span class="color-name">莫兰迪灰</span></div><div class="color-swatch" data-val="莫兰迪蓝"><div class="color-circle" style="background:#A0B4C8;"></div><span class="color-name">莫兰迪蓝</span></div><div class="color-swatch" data-val="高级灰"><div class="color-circle" style="background:#8C8C8C;"></div><span class="color-name">高级灰</span></div><div class="color-swatch" data-val="深空灰"><div class="color-circle" style="background:#4A4A4A;"></div><span class="color-name">深空灰</span></div><div class="color-swatch" data-val="赛博紫"><div class="color-circle" style="background:#7B2FBE;"></div><span class="color-name">赛博紫</span></div><div class="color-swatch" data-val="荧光粉"><div class="color-circle" style="background:#FF1493;"></div><span class="color-name">荧光粉</span></div><div class="color-swatch" data-val="荧光蓝"><div class="color-circle" style="background:#00E5FF;"></div><span class="color-name">荧光蓝</span></div><div class="color-swatch" data-val="珍珠白"><div class="color-circle" style="background:#FDFDF8; border:2px solid #ddd;"></div><span class="color-name">珍珠白</span></div><div class="color-swatch" data-val="象牙白"><div class="color-circle" style="background:#FFFFF0; border:2px solid #ddd;"></div><span class="color-name">象牙白</span></div><div class="color-swatch" data-val="工业银"><div class="color-circle" style="background:#C0C5CE;"></div><span class="color-name">工业银</span></div><div class="color-swatch" data-val="国潮撞色体系"><div class="color-circle" style="background:linear-gradient(135deg,#D4213D,#1E3A5F);"></div><span class="color-name">国潮撞色</span></div><div class="color-swatch" data-val="校园活力色系"><div class="color-circle" style="background:#F5A623;"></div><span class="color-name">校园活力</span></div><div class="color-swatch" data-val="徽派黑白灰"><div class="color-circle" style="background:#F5F3EF; border:2px solid #2D2D2D;"></div><span class="color-name">徽派黑白</span></div><div class="color-swatch" data-val="北欧风格色系"><div class="color-circle" style="background:#E8E4DF;"></div><span class="color-name">北欧色系</span></div><div class="color-swatch" data-val="侘寂风格色系"><div class="color-circle" style="background:#D4C9B8;"></div><span class="color-name">侘寂色系</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 字体数据库（完整80+项多选+折叠） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>字体数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span><span class="collapsible-toggle" id="fontToggle" onclick="toggleCollapsible('fontContent','fontToggle')">展开全部 ▾</span></div>
+            <div class="collapsible-content collapsed" id="fontContent">
+                <div class="btn-grid" id="fontBtns">
+                    <button class="btn-chip" data-val="毛笔书法体">毛笔书法体</button><button class="btn-chip" data-val="行书体">行书体</button><button class="btn-chip" data-val="草书体">草书体</button><button class="btn-chip" data-val="楷书体">楷书体</button><button class="btn-chip" data-val="隶书体">隶书体</button><button class="btn-chip" data-val="篆书体">篆书体</button><button class="btn-chip" data-val="魏碑体">魏碑体</button><button class="btn-chip" data-val="碑刻体">碑刻体</button><button class="btn-chip" data-val="瘦金体">瘦金体</button><button class="btn-chip" data-val="宋体">宋体</button><button class="btn-chip" data-val="仿宋体">仿宋体</button><button class="btn-chip" data-val="黑体">黑体</button><button class="btn-chip" data-val="雅黑体">雅黑体</button><button class="btn-chip" data-val="综艺体">综艺体</button><button class="btn-chip" data-val="美术体">美术体</button><button class="btn-chip" data-val="艺术体">艺术体</button><button class="btn-chip" data-val="创意体">创意体</button><button class="btn-chip" data-val="国潮艺术字">国潮艺术字</button><button class="btn-chip" data-val="潮流字体">潮流字体</button><button class="btn-chip" data-val="卡通字体">卡通字体</button><button class="btn-chip" data-val="手写字体">手写字体</button><button class="btn-chip" data-val="儿童字体">儿童字体</button><button class="btn-chip" data-val="竹简字体">竹简字体</button><button class="btn-chip" data-val="印章字体">印章字体</button><button class="btn-chip" data-val="篆刻字体">篆刻字体</button><button class="btn-chip" data-val="金石字体">金石字体</button><button class="btn-chip" data-val="甲骨文字体">甲骨文字体</button><button class="btn-chip" data-val="青铜器铭文字体">青铜器铭文字体</button><button class="btn-chip" data-val="敦煌艺术字体">敦煌艺术字体</button><button class="btn-chip" data-val="飞白字体">飞白字体</button><button class="btn-chip" data-val="古籍字体">古籍字体</button><button class="btn-chip" data-val="卷轴字体">卷轴字体</button><button class="btn-chip" data-val="宫廷字体">宫廷字体</button><button class="btn-chip" data-val="红色党建字体">红色党建字体</button><button class="btn-chip" data-val="红色革命字体">红色革命字体</button><button class="btn-chip" data-val="军旅字体">军旅字体</button><button class="btn-chip" data-val="校园文化字体">校园文化字体</button><button class="btn-chip" data-val="企业文化字体">企业文化字体</button><button class="btn-chip" data-val="科技数字字体">科技数字字体</button><button class="btn-chip" data-val="未来科技字体">未来科技字体</button><button class="btn-chip" data-val="赛博字体">赛博字体</button><button class="btn-chip" data-val="机械字体">机械字体</button><button class="btn-chip" data-val="工业字体">工业字体</button><button class="btn-chip" data-val="数据流字体">数据流字体</button><button class="btn-chip" data-val="像素字体">像素字体</button><button class="btn-chip" data-val="全息投影字体">全息投影字体</button><button class="btn-chip" data-val="发光字体">发光字体</button><button class="btn-chip" data-val="霓虹字体">霓虹字体</button><button class="btn-chip" data-val="LED字体">LED字体</button><button class="btn-chip" data-val="背发光字体">背发光字体</button><button class="btn-chip" data-val="镂空字体">镂空字体</button><button class="btn-chip" data-val="雕刻字体">雕刻字体</button><button class="btn-chip" data-val="浮雕字体">浮雕字体</button><button class="btn-chip" data-val="立体字体">立体字体</button><button class="btn-chip" data-val="3D字体">3D字体</button><button class="btn-chip" data-val="金属立体字体">金属立体字体</button><button class="btn-chip" data-val="不锈钢字体">不锈钢字体</button><button class="btn-chip" data-val="钛金字体">钛金字体</button><button class="btn-chip" data-val="铜雕字体">铜雕字体</button><button class="btn-chip" data-val="水晶字体">水晶字体</button><button class="btn-chip" data-val="玻璃字体">玻璃字体</button><button class="btn-chip" data-val="亚克力字体">亚克力字体</button><button class="btn-chip" data-val="镜面字体">镜面字体</button><button class="btn-chip" data-val="拉丝金属字体">拉丝金属字体</button><button class="btn-chip" data-val="磨砂字体">磨砂字体</button><button class="btn-chip" data-val="石刻字体">石刻字体</button><button class="btn-chip" data-val="木雕字体">木雕字体</button><button class="btn-chip" data-val="玉雕字体">玉雕字体</button><button class="btn-chip" data-val="艺术签名字体">艺术签名字体</button><button class="btn-chip" data-val="国际无衬线字体">国际无衬线字体</button><button class="btn-chip" data-val="现代极简字体">现代极简字体</button><button class="btn-chip" data-val="高级商务字体">高级商务字体</button><button class="btn-chip" data-val="展览展示字体">展览展示字体</button><button class="btn-chip" data-val="建筑导视字体">建筑导视字体</button><button class="btn-chip" data-val="城市标识字体">城市标识字体</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文化元素数据库（完整多选+折叠） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>文化元素数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span><span class="collapsible-toggle" id="cultureToggle" onclick="toggleCollapsible('cultureContent','cultureToggle')">展开全部 ▾</span></div>
+            <div class="collapsible-content collapsed" id="cultureContent">
+                <div class="btn-grid" id="cultureBtns">
+                    <button class="btn-chip" data-val="党徽">党徽</button><button class="btn-chip" data-val="国徽">国徽</button><button class="btn-chip" data-val="五星红旗">五星红旗</button><button class="btn-chip" data-val="红旗飘带">红旗飘带</button><button class="btn-chip" data-val="华表">华表</button><button class="btn-chip" data-val="天安门">天安门</button><button class="btn-chip" data-val="长城">长城</button><button class="btn-chip" data-val="和平鸽">和平鸽</button><button class="btn-chip" data-val="五角星">五角星</button><button class="btn-chip" data-val="党史卷轴">党史卷轴</button><button class="btn-chip" data-val="革命圣地">革命圣地</button><button class="btn-chip" data-val="红船">红船</button><button class="btn-chip" data-val="井冈山">井冈山</button><button class="btn-chip" data-val="延安宝塔山">延安宝塔山</button><button class="btn-chip" data-val="中国梦元素">中国梦元素</button><button class="btn-chip" data-val="民族团结元素">民族团结元素</button><button class="btn-chip" data-val="社会主义核心价值观">社会主义核心价值观</button><button class="btn-chip" data-val="中国地图">中国地图</button><button class="btn-chip" data-val="世界地图">世界地图</button><button class="btn-chip" data-val="书本">书本</button><button class="btn-chip" data-val="竹简">竹简</button><button class="btn-chip" data-val="卷轴">卷轴</button><button class="btn-chip" data-val="毛笔">毛笔</button><button class="btn-chip" data-val="砚台">砚台</button><button class="btn-chip" data-val="印章">印章</button><button class="btn-chip" data-val="学士帽">学士帽</button><button class="btn-chip" data-val="校徽">校徽</button><button class="btn-chip" data-val="校园建筑">校园建筑</button><button class="btn-chip" data-val="图书馆">图书馆</button><button class="btn-chip" data-val="知识树">知识树</button><button class="btn-chip" data-val="齿轮">齿轮</button><button class="btn-chip" data-val="机械设备">机械设备</button><button class="btn-chip" data-val="生产线">生产线</button><button class="btn-chip" data-val="机器人">机器人</button><button class="btn-chip" data-val="机械臂">机械臂</button><button class="btn-chip" data-val="芯片">芯片</button><button class="btn-chip" data-val="电路板">电路板</button><button class="btn-chip" data-val="数字矩阵">数字矩阵</button><button class="btn-chip" data-val="数据流">数据流</button><button class="btn-chip" data-val="全息界面">全息界面</button><button class="btn-chip" data-val="AI机器人">AI机器人</button><button class="btn-chip" data-val="云计算图形">云计算图形</button><button class="btn-chip" data-val="大数据图谱">大数据图谱</button><button class="btn-chip" data-val="卫星">卫星</button><button class="btn-chip" data-val="火箭">火箭</button><button class="btn-chip" data-val="宇宙星空">宇宙星空</button><button class="btn-chip" data-val="高铁">高铁</button><button class="btn-chip" data-val="桥梁">桥梁</button><button class="btn-chip" data-val="港口">港口</button><button class="btn-chip" data-val="风力发电机">风力发电机</button><button class="btn-chip" data-val="太阳能板">太阳能板</button><button class="btn-chip" data-val="新能源汽车">新能源汽车</button><button class="btn-chip" data-val="地球">地球</button><button class="btn-chip" data-val="水滴">水滴</button><button class="btn-chip" data-val="树叶">树叶</button><button class="btn-chip" data-val="森林">森林</button><button class="btn-chip" data-val="山川">山川</button><button class="btn-chip" data-val="河流">河流</button><button class="btn-chip" data-val="梯田">梯田</button><button class="btn-chip" data-val="稻田">稻田</button><button class="btn-chip" data-val="麦穗">麦穗</button><button class="btn-chip" data-val="水车">水车</button><button class="btn-chip" data-val="古村落">古村落</button><button class="btn-chip" data-val="徽派建筑">徽派建筑</button><button class="btn-chip" data-val="苏式园林">苏式园林</button><button class="btn-chip" data-val="亭台楼阁">亭台楼阁</button><button class="btn-chip" data-val="飞檐斗拱">飞檐斗拱</button><button class="btn-chip" data-val="祥云">祥云</button><button class="btn-chip" data-val="龙纹">龙纹</button><button class="btn-chip" data-val="凤纹">凤纹</button><button class="btn-chip" data-val="麒麟">麒麟</button><button class="btn-chip" data-val="仙鹤">仙鹤</button><button class="btn-chip" data-val="锦鲤">锦鲤</button><button class="btn-chip" data-val="莲花">莲花</button><button class="btn-chip" data-val="牡丹">牡丹</button><button class="btn-chip" data-val="梅花">梅花</button><button class="btn-chip" data-val="兰花">兰花</button><button class="btn-chip" data-val="竹子">竹子</button><button class="btn-chip" data-val="菊花">菊花</button><button class="btn-chip" data-val="松树">松树</button><button class="btn-chip" data-val="山水画">山水画</button><button class="btn-chip" data-val="敦煌飞天">敦煌飞天</button><button class="btn-chip" data-val="敦煌藻井">敦煌藻井</button><button class="btn-chip" data-val="丝绸之路">丝绸之路</button><button class="btn-chip" data-val="非遗纹样">非遗纹样</button><button class="btn-chip" data-val="中国结">中国结</button><button class="btn-chip" data-val="灯笼">灯笼</button><button class="btn-chip" data-val="京剧脸谱">京剧脸谱</button><button class="btn-chip" data-val="皮影">皮影</button><button class="btn-chip" data-val="剪纸">剪纸</button><button class="btn-chip" data-val="青花瓷">青花瓷</button><button class="btn-chip" data-val="陶瓷纹样">陶瓷纹样</button><button class="btn-chip" data-val="法典">法典</button><button class="btn-chip" data-val="法槌">法槌</button><button class="btn-chip" data-val="天平">天平</button><button class="btn-chip" data-val="盾牌">盾牌</button><button class="btn-chip" data-val="安全帽">安全帽</button><button class="btn-chip" data-val="消防车">消防车</button><button class="btn-chip" data-val="消防栓">消防栓</button><button class="btn-chip" data-val="警示标识">警示标识</button><button class="btn-chip" data-val="医疗十字">医疗十字</button><button class="btn-chip" data-val="军徽">军徽</button><button class="btn-chip" data-val="军舰">军舰</button><button class="btn-chip" data-val="战机">战机</button><button class="btn-chip" data-val="迷彩图案">迷彩图案</button><button class="btn-chip" data-val="城市天际线">城市天际线</button><button class="btn-chip" data-val="地标建筑">地标建筑</button><button class="btn-chip" data-val="社区居民">社区居民</button><button class="btn-chip" data-val="志愿者">志愿者</button><button class="btn-chip" data-val="文明礼让元素">文明礼让元素</button><button class="btn-chip" data-val="公益爱心元素">公益爱心元素</button><button class="btn-chip" data-val="体育运动元素">体育运动元素</button><button class="btn-chip" data-val="奥运精神元素">奥运精神元素</button><button class="btn-chip" data-val="世界文化遗产元素">世界文化遗产元素</button><button class="btn-chip" data-val="地域文化图腾元素">地域文化图腾元素</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 材质数据库（完整90+项多选+折叠） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>材质数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span><span class="collapsible-toggle" id="materialToggle" onclick="toggleCollapsible('materialContent','materialToggle')">展开全部 ▾</span></div>
+            <div class="collapsible-content collapsed" id="materialContent">
+                <div class="btn-grid" id="materialBtns">
+                    <button class="btn-chip" data-val="镀锌钢板">镀锌钢板</button><button class="btn-chip" data-val="不锈钢">不锈钢</button><button class="btn-chip" data-val="304不锈钢">304不锈钢</button><button class="btn-chip" data-val="316不锈钢">316不锈钢</button><button class="btn-chip" data-val="拉丝不锈钢">拉丝不锈钢</button><button class="btn-chip" data-val="镜面不锈钢">镜面不锈钢</button><button class="btn-chip" data-val="钛金不锈钢">钛金不锈钢</button><button class="btn-chip" data-val="玫瑰金不锈钢">玫瑰金不锈钢</button><button class="btn-chip" data-val="古铜不锈钢">古铜不锈钢</button><button class="btn-chip" data-val="黑钛不锈钢">黑钛不锈钢</button><button class="btn-chip" data-val="铜板">铜板</button><button class="btn-chip" data-val="黄铜板">黄铜板</button><button class="btn-chip" data-val="紫铜板">紫铜板</button><button class="btn-chip" data-val="锻铜板">锻铜板</button><button class="btn-chip" data-val="铝板">铝板</button><button class="btn-chip" data-val="铝单板">铝单板</button><button class="btn-chip" data-val="冲孔铝板">冲孔铝板</button><button class="btn-chip" data-val="氟碳铝板">氟碳铝板</button><button class="btn-chip" data-val="木纹铝板">木纹铝板</button><button class="btn-chip" data-val="蜂窝铝板">蜂窝铝板</button><button class="btn-chip" data-val="铝塑板">铝塑板</button><button class="btn-chip" data-val="亚克力">亚克力</button><button class="btn-chip" data-val="透明亚克力">透明亚克力</button><button class="btn-chip" data-val="磨砂亚克力">磨砂亚克力</button><button class="btn-chip" data-val="镜面亚克力">镜面亚克力</button><button class="btn-chip" data-val="彩色亚克力">彩色亚克力</button><button class="btn-chip" data-val="导光亚克力">导光亚克力</button><button class="btn-chip" data-val="水晶亚克力">水晶亚克力</button><button class="btn-chip" data-val="发光亚克力">发光亚克力</button><button class="btn-chip" data-val="水晶板">水晶板</button><button class="btn-chip" data-val="PVC板">PVC板</button><button class="btn-chip" data-val="雪弗板">雪弗板</button><button class="btn-chip" data-val="UV板">UV板</button><button class="btn-chip" data-val="钢化玻璃">钢化玻璃</button><button class="btn-chip" data-val="超白玻璃">超白玻璃</button><button class="btn-chip" data-val="夹胶玻璃">夹胶玻璃</button><button class="btn-chip" data-val="中空玻璃">中空玻璃</button><button class="btn-chip" data-val="磨砂玻璃">磨砂玻璃</button><button class="btn-chip" data-val="彩绘玻璃">彩绘玻璃</button><button class="btn-chip" data-val="艺术玻璃">艺术玻璃</button><button class="btn-chip" data-val="LED显示屏">LED显示屏</button><button class="btn-chip" data-val="LCD显示屏">LCD显示屏</button><button class="btn-chip" data-val="OLED显示屏">OLED显示屏</button><button class="btn-chip" data-val="触摸互动屏">触摸互动屏</button><button class="btn-chip" data-val="数字屏">数字屏</button><button class="btn-chip" data-val="全息屏">全息屏</button><button class="btn-chip" data-val="透明显示屏">透明显示屏</button><button class="btn-chip" data-val="灯箱布">灯箱布</button><button class="btn-chip" data-val="软膜天花">软膜天花</button><button class="btn-chip" data-val="透光膜">透光膜</button><button class="btn-chip" data-val="防腐木">防腐木</button><button class="btn-chip" data-val="碳化木">碳化木</button><button class="btn-chip" data-val="实木">实木</button><button class="btn-chip" data-val="胡桃木">胡桃木</button><button class="btn-chip" data-val="橡木">橡木</button><button class="btn-chip" data-val="柚木">柚木</button><button class="btn-chip" data-val="竹材">竹材</button><button class="btn-chip" data-val="竹编材料">竹编材料</button><button class="btn-chip" data-val="文化石">文化石</button><button class="btn-chip" data-val="天然石材">天然石材</button><button class="btn-chip" data-val="花岗岩">花岗岩</button><button class="btn-chip" data-val="大理石">大理石</button><button class="btn-chip" data-val="砂岩">砂岩</button><button class="btn-chip" data-val="青石">青石</button><button class="btn-chip" data-val="人造石">人造石</button><button class="btn-chip" data-val="岩板">岩板</button><button class="btn-chip" data-val="微水泥">微水泥</button><button class="btn-chip" data-val="清水混凝土">清水混凝土</button><button class="btn-chip" data-val="GRC">GRC</button><button class="btn-chip" data-val="GRG">GRG</button><button class="btn-chip" data-val="UHPC超高性能混凝土">UHPC超高性能混凝土</button><button class="btn-chip" data-val="玻璃钢FRP">玻璃钢FRP</button><button class="btn-chip" data-val="树脂材料">树脂材料</button><button class="btn-chip" data-val="碳纤维板">碳纤维板</button><button class="btn-chip" data-val="金属网">金属网</button><button class="btn-chip" data-val="冲孔网">冲孔网</button><button class="btn-chip" data-val="镂空雕花板">镂空雕花板</button><button class="btn-chip" data-val="激光切割板">激光切割板</button><button class="btn-chip" data-val="陶瓷板">陶瓷板</button><button class="btn-chip" data-val="珐琅板">珐琅板</button><button class="btn-chip" data-val="光伏发电板">光伏发电板</button><button class="btn-chip" data-val="3D打印材料">3D打印材料</button><button class="btn-chip" data-val="艺术装置材料">艺术装置材料</button><button class="btn-chip" data-val="雕塑级复合材料">雕塑级复合材料</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工艺数据库（完整多选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>工艺数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span></div>
+            <div class="btn-grid" id="craftBtns">
+                <button class="btn-chip" data-val="激光切割">激光切割</button><button class="btn-chip" data-val="镂空雕刻">镂空雕刻</button><button class="btn-chip" data-val="浮雕雕刻">浮雕雕刻</button><button class="btn-chip" data-val="立体雕刻">立体雕刻</button><button class="btn-chip" data-val="UV打印">UV打印</button><button class="btn-chip" data-val="丝网印刷">丝网印刷</button><button class="btn-chip" data-val="热转印">热转印</button><button class="btn-chip" data-val="金属蚀刻">金属蚀刻</button><button class="btn-chip" data-val="电镀工艺">电镀工艺</button><button class="btn-chip" data-val="拉丝工艺">拉丝工艺</button><button class="btn-chip" data-val="镜面抛光工艺">镜面抛光工艺</button><button class="btn-chip" data-val="仿古做旧工艺">仿古做旧工艺</button><button class="btn-chip" data-val="木雕工艺">木雕工艺</button><button class="btn-chip" data-val="铜雕工艺">铜雕工艺</button><button class="btn-chip" data-val="锻造工艺">锻造工艺</button><button class="btn-chip" data-val="焊接工艺">焊接工艺</button><button class="btn-chip" data-val="无缝拼接工艺">无缝拼接工艺</button><button class="btn-chip" data-val="发光工艺">发光工艺</button><button class="btn-chip" data-val="背发光工艺">背发光工艺</button><button class="btn-chip" data-val="侧发光工艺">侧发光工艺</button><button class="btn-chip" data-val="灯箱工艺">灯箱工艺</button><button class="btn-chip" data-val="数字显示工艺">数字显示工艺</button><button class="btn-chip" data-val="互动触摸工艺">互动触摸工艺</button><button class="btn-chip" data-val="全息投影工艺">全息投影工艺</button>
+            </div>
+        </div>
+
+        <!-- 灯光数据库（完整多选） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>灯光数据库</span><span class="section-label">多选<span class="multi-hint">(可多选·不选则随机)</span></span></div>
+            <div class="btn-grid" id="lightBtns">
+                <button class="btn-chip" data-val="顶部洗墙灯">顶部洗墙灯</button><button class="btn-chip" data-val="底部投光灯">底部投光灯</button><button class="btn-chip" data-val="线性灯带">线性灯带</button><button class="btn-chip" data-val="轮廓灯">轮廓灯</button><button class="btn-chip" data-val="发光字">发光字</button><button class="btn-chip" data-val="背发光">背发光</button><button class="btn-chip" data-val="侧发光">侧发光</button><button class="btn-chip" data-val="景观射灯">景观射灯</button><button class="btn-chip" data-val="互动灯光">互动灯光</button><button class="btn-chip" data-val="全息投影">全息投影</button><button class="btn-chip" data-val="夜景亮化系统">夜景亮化系统</button><button class="btn-chip" data-val="智能感应灯光系统">智能感应灯光系统</button>
+            </div>
+        </div>
+
+        <!-- 尺寸数据库（完整多选+自定义输入） -->
+        <div class="card">
+            <div class="card-header"><span class="card-title"><span class="dot"></span>尺寸数据库</span><span class="section-label">多选+自定义输入</span></div>
+            <div class="btn-grid" id="sizeBtns" style="margin-bottom:0.8rem;">
+                <button class="btn-chip" data-val="1200×2400mm">1200×2400mm</button><button class="btn-chip" data-val="1500×3000mm">1500×3000mm</button><button class="btn-chip" data-val="1800×3600mm">1800×3600mm</button><button class="btn-chip" data-val="2000×4000mm">2000×4000mm</button><button class="btn-chip" data-val="2400×4800mm">2400×4800mm</button><button class="btn-chip" data-val="3000×6000mm">3000×6000mm</button><button class="btn-chip" data-val="4000×8000mm">4000×8000mm</button><button class="btn-chip" data-val="6000×12000mm">6000×12000mm</button>
+            </div>
+            <div class="input-row">
+                <div class="input-group" style="min-width:280px;">
+                    <label>📏 自定义尺寸（手动输入）</label>
+                    <input type="text" id="customSize" placeholder="例如：2500×5000mm、3500×7000mm、5000×10000mm...">
+                </div>
+                <div style="display:flex;align-items:flex-end;padding-bottom:2px;">
+                    <span style="font-size:0.7rem;color:var(--text-muted);">💡 可输入多个自定义尺寸，用逗号或顿号分隔</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生成按钮 -->
+        <div style="text-align:center;padding:1.5rem 0;">
+            <button class="generate-btn" onclick="generateSchemes()">✦ 一键生成20组方案（正面展示·完整数据库·复制可用）</button>
+        </div>
+
+        <div id="schemesContainer" class="scheme-grid"></div>
+    </div>
+
+    <script>
+        function initSingleSelect(gridId) {
+            const container = document.getElementById(gridId);
+            if (!container) return;
+            container.addEventListener('click', function(e) {
+                const btn = e.target.closest('.btn-chip');
+                if (!btn) return;
+                container.querySelectorAll('.btn-chip').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        }
+        function initMultiSelect(gridId) {
+            const container = document.getElementById(gridId);
+            if (!container) return;
+            container.addEventListener('click', function(e) {
+                const btn = e.target.closest('.btn-chip');
+                if (!btn) return;
+                btn.classList.toggle('selected');
+            });
+        }
+        function getSelectedSingle(gridId) {
+            const container = document.getElementById(gridId);
+            if (!container) return '';
+            const sel = container.querySelector('.btn-chip.selected');
+            return sel ? sel.getAttribute('data-val') : '';
+        }
+        function getSelectedMulti(gridId) {
+            const container = document.getElementById(gridId);
+            if (!container) return [];
+            return Array.from(container.querySelectorAll('.btn-chip.selected')).map(b => b.getAttribute('data-val'));
+        }
+        function getSelectedColors() {
+            const container = document.getElementById('colorGrid');
+            if (!container) return [];
+            return Array.from(container.querySelectorAll('.color-swatch.selected')).map(s => s.getAttribute('data-val'));
+        }
+        function toggleCollapsible(contentId, toggleId) {
+            const content = document.getElementById(contentId);
+            const toggle = document.getElementById(toggleId);
+            if (!content || !toggle) return;
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                toggle.classList.add('open');
+                toggle.innerHTML = '收起 ▴';
+            } else {
+                content.classList.add('collapsed');
+                content.classList.remove('expanded');
+                toggle.classList.remove('open');
+                toggle.innerHTML = '展开全部 ▾';
+            }
+        }
+        function initThemeToggle() {
+            const btn = document.getElementById('themeToggleBtn');
+            const saved = localStorage.getItem('billboard-theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+            else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            }
+            btn.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('billboard-theme', next);
+            });
+        }
+
+        // 全局存储生成的提示词，用于复制按钮访问
+        let globalPrompts = [];
+
+        function generateSchemes() {
+            const billboardType = getSelectedSingle('typeBtns') || '乡村振兴宣传栏';
+            const installEnv = getSelectedSingle('envBtns') || '景观宣传栏';
+            const designPosition = getSelectedSingle('positionBtns') || '品牌形象+视觉地标';
+            const customTheme = document.getElementById('customTheme')?.value?.trim() || '';
+            const customNotes = document.getElementById('customNotes')?.value?.trim() || '';
+            const customDescription = document.getElementById('customDescription')?.value?.trim() || '';
+            const customSizeRaw = document.getElementById('customSize')?.value?.trim() || '';
+
+            const selStructures = getSelectedMulti('structureBtns');
+            const selShapes = getSelectedMulti('shapeBtns');
+            const selStyles = getSelectedMulti('styleBtns');
+            const selFonts = getSelectedMulti('fontBtns');
+            const selCultures = getSelectedMulti('cultureBtns');
+            const selMaterials = getSelectedMulti('materialBtns');
+            const selCrafts = getSelectedMulti('craftBtns');
+            const selLights = getSelectedMulti('lightBtns');
+            const selSizes = getSelectedMulti('sizeBtns');
+            const selColors = getSelectedColors();
+            let customSizes = customSizeRaw ? customSizeRaw.split(/[,，、]+/).map(s => s.trim()).filter(Boolean) : [];
+            const allSizes = [...selSizes, ...customSizes];
+
+            function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+            function pickOrRandom(selected, full) { return selected.length ? pickRandom(selected) : pickRandom(full); }
+
+            const allStructures = Array.from(document.querySelectorAll('#structureBtns .btn-chip')).map(b => b.getAttribute(
+                'data-val'));
+            const allShapes = Array.from(document.querySelectorAll('#shapeBtns .btn-chip')).map(b => b.getAttribute('data-val'));
+            const allStyles = Array.from(document.querySelectorAll('#styleBtns .btn-chip')).map(b => b.getAttribute('data-val'));
+            const allFonts = Array.from(document.querySelectorAll('#fontBtns .btn-chip')).map(b => b.getAttribute('data-val'));
+            const allCultures = Array.from(document.querySelectorAll('#cultureBtns .btn-chip')).map(b => b.getAttribute(
+                'data-val'));
+            const allMaterials = Array.from(document.querySelectorAll('#materialBtns .btn-chip')).map(b => b.getAttribute(
+                'data-val'));
+            const allCrafts = Array.from(document.querySelectorAll('#craftBtns .btn-chip')).map(b => b.getAttribute('data-val'));
+            const allLights = Array.from(document.querySelectorAll('#lightBtns .btn-chip')).map(b => b.getAttribute('data-val'));
+            const allColors = Array.from(document.querySelectorAll('#colorGrid .color-swatch')).map(s => s.getAttribute(
+                'data-val'));
+
+            const visualLogics = ['焦点放射式视觉引导，主视觉居中放大，次级信息环绕分布', 'Z型阅读动线，从左至右自然流动，顶部标题区统领全局',
+                'F型视觉扫描逻辑，重点信息置于左上黄金区域', '分层递进式视觉逻辑，由远及近、由大到小层层深入', '对称均衡视觉体系，左右镜像呼应，营造庄重仪式感',
+                '对角线动态视觉流，打破静态平衡，注入活力节奏', '螺旋递进视觉逻辑，从外圈到内核逐步聚焦核心信息', '网格矩阵视觉体系，模块化信息排布，秩序感极强',
+                '悬浮分层视觉逻辑，前景主视觉+中层信息+背景纹理三重叠加', '隧道纵深式视觉引导，利用透视线条将视线引向核心内容',
+                '瀑布流视觉逻辑，信息自上而下倾泻，适合长卷叙事', '拼图组合式视觉体系，各模块独立成章又相互呼应', '涟漪扩散式视觉逻辑，中心爆发点向外层层扩散',
+                '书架式平行视觉体系，多栏并置，各成独立阅读单元', '舞台聚光式视觉逻辑，重点区域如聚光灯下，次要区域渐隐', '折页展开式视觉动线，模拟翻书体验，逐段揭示内容',
+                '星空散布式视觉逻辑，亮点信息如星辰散落，整体和谐', '齿轮咬合式视觉体系，各模块环环相扣，逻辑紧密', '波浪律动式视觉逻辑，信息随造型起伏流动，富有节奏',
+                '晶格结构视觉体系，多面体折射效果，信息多角度呈现'
+            ];
+            const displayForms = ['图文展示+文化故事展示+发展历程展示+荣誉展示', '时间轴展示+人物展示+图文展示+多媒体展示', '数据展示+互动展示+电子展示+图文展示',
+                '地图展示+导览展示+图文展示+文化故事展示', '荣誉展示+人物展示+发展历程展示+图文展示', '电子展示+数字屏融合+互动展示+数据展示',
+                '文化故事展示+图文展示+时间轴展示+荣誉展示', '多媒体展示+全息互动+图文展示+数据展示', '图文展示+地图导览+荣誉展示+发展历程展示',
+                '互动展示+数字展示+文化故事+人物展示', '长卷叙事展示+图文展示+时间轴+文化故事', '模块化图文展示+数据可视化+荣誉墙+互动屏',
+                '立体浮雕展示+图文+灯光叙事+文化故事', '数字交互展示+全息投影+图文+数据面板', '艺术装置展示+图文融合+灯光演绎+文化符号', '翻书式展示+时间轴+图文+互动触摸',
+                '景观融合展示+图文+导览地图+文化故事', '雕塑结合展示+浮雕图文+灯光+荣誉铭牌', '展馆级展示+多媒体+图文+数据+互动体验', '未来科技展示+全息+数字交互+图文+数据流'
+            ];
+
+            const container = document.getElementById('schemesContainer');
+            globalPrompts = [];
+            let html = '';
+            for (let i = 0; i < 20; i++) {
+                const struct = pickOrRandom(selStructures, allStructures);
+                const shape = pickOrRandom(selShapes, allShapes);
+                const style = pickOrRandom(selStyles, allStyles);
+                const font = pickOrRandom(selFonts, allFonts);
+                const culture = pickOrRandom(selCultures, allCultures);
+                const material = pickOrRandom(selMaterials, allMaterials);
+                const craft = pickOrRandom(selCrafts, allCrafts);
+                const light = pickOrRandom(selLights, allLights);
+                const color = pickOrRandom(selColors, allColors);
+                const size = allSizes.length ? pickRandom(allSizes) : '2000×4000mm';
+                const schemeName = customTheme ? `${customTheme}·方案${i+1}` : `【方案${i+1}】${billboardType}·正面展示设计`;
+                let prompt = `超高清宣传栏正面渲染图：${schemeName}，完全正面视角，正视角度，${style}，${shape}造型，${struct}版式，${color}色彩，材质：${material}，工艺：${craft}，${font}字体，文化元素：${culture}，灯光：${light}，展示形式：${displayForms[i]}，安装环境：${installEnv}，设计定位：${designPosition}，${billboardType}，尺寸：${size}，8K超写实，建筑可视化，专业摄影棚光效，细节极致，正面展示，正面渲染，宣传栏正面视图`;
+                if (customNotes) prompt += `，${customNotes}`;
+                if (customDescription) prompt += `，${customDescription}`;
+                globalPrompts.push(prompt);
+
+                html += `<div class="scheme-card">
+                    <div class="scheme-index">${String(i+1).padStart(2,'0')}</div>
+                    <div class="scheme-name">${schemeName}</div>
+                    <div class="info-row"><span class="info-tag accent">📐 ${struct}</span><span class="info-tag">🎨 ${style}</span><span class="info-tag">📏 ${shape}</span><span class="info-tag">🖊 ${font}</span></div>
+                    <div class="info-row"><span class="info-tag accent">🎯 ${designPosition}</span><span class="info-tag">📍 ${installEnv}</span><span class="info-tag">🏷 ${billboardType}</span></div>
+                    <div style="font-size:0.73rem;"><strong>视觉逻辑：</strong>${visualLogics[i]}<br><strong>文化元素：</strong>${culture}<br><strong>材质工艺：</strong>${material} + ${craft}<br><strong>色彩：</strong>${color}<br><strong>灯光：</strong>${light}</div>
+                    <div class="prompt-box" data-prompt-index="${i}">
+                        <button class="copy-btn" data-prompt-index="${i}">📋 复制提示词</button>
+                        <span class="prompt-text">${prompt}</span>
+                    </div>
+                </div>`;
+            }
+            container.innerHTML = html;
+
+            // 为所有复制按钮绑定事件（使用事件委托方式更可靠）
+            container.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-prompt-index'));
+                    if (index >= 0 && index < globalPrompts.length) {
+                        copyTextToClipboard(globalPrompts[index], this);
+                    } else {
+                        // 如果索引不匹配，尝试从同级prompt-text获取
+                        const promptBox = this.closest('.prompt-box');
+                        const promptText = promptBox ? promptBox.querySelector('.prompt-text')
+                            ?.textContent?.trim() : '';
+                        if (promptText) {
+                            copyTextToClipboard(promptText, this);
+                        }
+                    }
+                });
+            });
+        }
+
+        function copyTextToClipboard(text, btn) {
+            if (!text) return;
+            // 优先使用现代API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopySuccess(btn);
+                }).catch(() => {
+                    fallbackCopy(text, btn);
+                });
+            } else {
+                fallbackCopy(text, btn);
+            }
+        }
+
+        function fallbackCopy(text, btn) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '-9999px';
+            textarea.style.opacity = '0';
+            textarea.setAttribute('readonly', '');
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            textarea.setSelectionRange(0, text.length);
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(btn);
+                } else {
+                    showCopyFailed(btn);
+                }
+            } catch (e) {
+                showCopyFailed(btn);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function showCopySuccess(btn) {
+            const originalText = btn.textContent;
+            btn.textContent = '✅ 已复制';
+            btn.classList.add('copied');
+            clearTimeout(btn._timeout);
+            btn._timeout = setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        function showCopyFailed(btn) {
+            const originalText = btn.textContent;
+            btn.textContent = '⚠ 请重试';
+            clearTimeout(btn._timeout);
+            btn._timeout = setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+
+        // 保留原有的全局copyPrompt函数以兼容可能的调用
+        window.copyPrompt = function(btnOrIndex, text) {
+            if (typeof btnOrIndex === 'number') {
+                if (btnOrIndex >= 0 && btnOrIndex < globalPrompts.length) {
+                    const targetBtn = document.querySelector(`.copy-btn[data-prompt-index="${btnOrIndex}"]`);
+                    copyTextToClipboard(globalPrompts[btnOrIndex], targetBtn || null);
+                }
+            } else if (text) {
+                copyTextToClipboard(text, btnOrIndex);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initThemeToggle();
+            initSingleSelect('typeBtns');
+            initSingleSelect('envBtns');
+            initSingleSelect('positionBtns');
+            ['structureBtns', 'shapeBtns', 'styleBtns', 'fontBtns', 'cultureBtns', 'materialBtns', 'craftBtns',
+                'lightBtns', 'sizeBtns'
+            ].forEach(initMultiSelect);
+            const colorGrid = document.getElementById('colorGrid');
+            if (colorGrid) colorGrid.addEventListener('click', e => {
+                const sw = e.target.closest('.color-swatch');
+                if (sw) sw.classList.toggle('selected');
+            });
+            generateSchemes();
+        });
+    </script>
+</body>
+</html>
