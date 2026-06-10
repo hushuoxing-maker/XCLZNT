@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宣传栏规划设计大师系统 | Pro-Billboard Design v4.1</title>
+    <title>宣传栏规划设计大师系统 | Pro-Billboard Design v5.0</title>
     <style>
         :root {
             --bg: #f5f3ef;
@@ -77,74 +77,409 @@
             --btn-generate-bg: linear-gradient(135deg, #c9a050 0%, #a07828 100%);
             --btn-generate-hover: linear-gradient(135deg, #d4b872 0%, #c9a050 100%);
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior:smooth; font-size:15px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 15px;
+        }
         body {
-            font-family:'Inter','PingFang SC','Microsoft YaHei','Hiragino Sans GB',sans-serif;
-            background:var(--bg); background-image:var(--bg-hero-gradient);
-            color:var(--text); line-height:1.6; letter-spacing:0.015em;
-            -webkit-font-smoothing:antialiased; min-height:100vh;
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+            background: var(--bg);
+            background-image: var(--bg-hero-gradient);
+            color: var(--text);
+            line-height: 1.6;
+            letter-spacing: 0.015em;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
             transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
         }
         .top-bar {
-            background:var(--top-bar-bg); border-bottom:1px solid var(--border);
-            padding:0 1.5rem; height:56px; display:flex; align-items:center;
-            justify-content:space-between; position:sticky; top:0; z-index:1000;
-            backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-            box-shadow:var(--shadow-sm); gap:1rem; flex-wrap:wrap;
+            background: var(--top-bar-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1.5rem;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-sm);
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        .top-bar .logo { display:flex; align-items:center; gap:10px; font-family:'Georgia',serif; font-size:1.05rem; font-weight:700; color:var(--text); }
-        .top-bar .logo .icon { width:32px; height:32px; border-radius:8px; background:var(--logo-gradient); display:flex; align-items:center; justify-content:center; color:#fff; }
-        .top-bar .badge { font-size:0.68rem; padding:4px 10px; border-radius:20px; background:var(--accent-bg); color:var(--gold-dark); }
-        .theme-toggle-btn { width:38px; height:38px; border-radius:50%; border:2px solid var(--border); background:var(--surface); cursor:pointer; position:relative; }
-        .theme-toggle-btn .icon-sun,.theme-toggle-btn .icon-moon { position:absolute; transition:all 0.4s; }
-        .theme-toggle-btn .icon-sun { opacity:0; transform:rotate(90deg) scale(0.5); color:#f0c040; }
-        .theme-toggle-btn .icon-moon { opacity:1; transform:rotate(0deg) scale(1); color:#5c5c8a; }
-        [data-theme="dark"] .theme-toggle-btn .icon-sun { opacity:1; transform:rotate(0deg) scale(1); }
-        [data-theme="dark"] .theme-toggle-btn .icon-moon { opacity:0; transform:rotate(-90deg) scale(0.5); }
-        .main-container { max-width:1500px; margin:0 auto; padding:1rem 1.5rem 3rem; }
-        .card { background:var(--surface); border-radius:16px; border:1px solid var(--border); padding:1.3rem 1.4rem; margin-bottom:1.2rem; box-shadow:var(--shadow-sm); }
-        .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.9rem; flex-wrap:wrap; gap:0.6rem; }
-        .card-title { font-family:'Georgia',serif; font-size:1rem; font-weight:700; display:flex; align-items:center; gap:8px; }
-        .card-title .dot { width:7px; height:7px; border-radius:50%; background:var(--gold); }
-        .section-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); background:var(--surface-alt); padding:4px 10px; border-radius:20px; border:1px solid var(--border-light); }
-        .input-row { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:0.8rem; }
-        .input-group { flex:1; min-width:200px; display:flex; flex-direction:column; gap:4px; }
-        .input-group label { font-size:0.7rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase; }
-        .input-group input,.input-group textarea { padding:10px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:0.9rem; background:var(--input-bg); color:var(--text); }
-        .input-group input:focus,.input-group textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,148,75,0.06); background:var(--input-bg-focus); }
-        .btn-grid { display:flex; flex-wrap:wrap; gap:0.4rem; }
-        .btn-chip { padding:6px 13px; border-radius:22px; border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-size:0.73rem; transition:all 0.25s; color:var(--text-secondary); }
-        .btn-chip:hover { border-color:var(--gold-light); color:var(--gold-dark); background:var(--chip-hover-bg); }
-        .btn-chip.selected { background:var(--gold); color:#fff; border-color:var(--gold); font-weight:600; }
-        .btn-chip.selected::after { content:' ✓'; font-size:0.65rem; }
-        .color-grid { display:flex; flex-wrap:wrap; gap:0.45rem; }
-        .color-swatch { display:flex; flex-direction:column; align-items:center; gap:2px; cursor:pointer; padding:5px 3px; border-radius:8px; border:2px solid transparent; min-width:44px; position:relative; }
-        .color-swatch:hover { border-color:var(--gold-light); background:var(--accent-bg); }
-        .color-swatch.selected { border-color:var(--gold); background:var(--accent-bg); }
-        .color-swatch.selected::after { content:'✓'; position:absolute; top:-6px; right:-4px; background:var(--gold); color:#fff; width:16px; height:16px; border-radius:50%; font-size:0.55rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
-        .color-circle { width:30px; height:30px; border-radius:50%; border:2px solid var(--color-swatch-border); }
-        .color-name { font-size:0.58rem; color:var(--text-secondary); max-width:50px; text-align:center; }
-        .generate-btn { display:inline-flex; align-items:center; gap:8px; padding:14px 36px; background:var(--btn-generate-bg); color:#fff; border:none; border-radius:30px; cursor:pointer; font-size:1rem; font-weight:700; box-shadow:0 6px 24px var(--gold-glow); }
-        .generate-btn:hover { transform:translateY(-2px); box-shadow:0 10px 32px var(--gold-glow-hover); background:var(--btn-generate-hover); }
-        .scheme-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(440px,1fr)); gap:1.3rem; margin-top:1.5rem; }
-        .scheme-card { background:var(--surface); border-radius:20px; border:1px solid var(--border); padding:1.3rem; box-shadow:var(--shadow-sm); position:relative; display:flex; flex-direction:column; gap:0.7rem; animation:fadeInUp 0.5s forwards; }
-        .scheme-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); }
-        .scheme-index { position:absolute; top:8px; right:14px; font-family:'Georgia',serif; font-size:2.5rem; font-weight:900; color:var(--scheme-index-color); }
-        .scheme-name { font-family:'Georgia',serif; font-size:1.1rem; font-weight:700; z-index:1; padding-right:35px; }
-        .info-row { display:flex; flex-wrap:wrap; gap:0.3rem 0.6rem; font-size:0.73rem; }
-        .info-tag { background:var(--surface-alt); padding:3px 9px; border-radius:14px; font-size:0.67rem; border:1px solid var(--border-light); color:var(--text-secondary); }
-        .info-tag.accent { background:var(--accent-bg); color:var(--gold-dark); border-color:var(--accent-bg-border); }
-        .prompt-box { background:var(--prompt-bg); border:1px solid var(--border-light); border-radius:8px; padding:0.8rem; padding-right:75px; font-size:0.73rem; position:relative; word-break:break-all; min-height:44px; display:flex; align-items:center; }
-        .copy-btn { position:absolute; top:50%; right:10px; transform:translateY(-50%); padding:6px 14px; background:var(--surface); border:1.5px solid var(--border); border-radius:16px; cursor:pointer; font-size:0.7rem; font-weight:600; z-index:2; }
-        .copy-btn:hover { background:var(--gold); color:#fff; border-color:var(--gold); }
-        .copy-btn.copied { background:#4caf84; color:#fff; border-color:#4caf84; }
-        .collapsible-content { overflow:hidden; transition:max-height 0.4s ease; }
-        .collapsible-content.collapsed { max-height:220px; }
-        .collapsible-content.expanded { max-height:12000px; }
-        .collapsible-toggle { cursor:pointer; font-size:0.7rem; color:var(--gold-dark); font-weight:600; }
-        @keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
-        @media (max-width:768px) { .scheme-grid { grid-template-columns:1fr; } }
+        .top-bar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Georgia', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .top-bar .logo .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--logo-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        .top-bar .badge {
+            font-size: 0.68rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--accent-bg);
+            color: var(--gold-dark);
+        }
+        .theme-toggle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            position: relative;
+        }
+        .theme-toggle-btn .icon-sun,
+        .theme-toggle-btn .icon-moon {
+            position: absolute;
+            transition: all 0.4s;
+        }
+        .theme-toggle-btn .icon-sun {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+            color: #f0c040;
+        }
+        .theme-toggle-btn .icon-moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+            color: #5c5c8a;
+        }
+        [data-theme="dark"] .theme-toggle-btn .icon-sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+        [data-theme="dark"] .theme-toggle-btn .icon-moon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+        .main-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 1.3rem 1.4rem;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.9rem;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .card-title {
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+        .section-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            background: var(--surface-alt);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+        }
+        .input-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .input-group label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+        }
+        .input-group input,
+        .input-group textarea {
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: var(--input-bg);
+            color: var(--text);
+        }
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(184,148,75,0.06);
+            background: var(--input-bg-focus);
+        }
+        .btn-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .btn-chip {
+            padding: 6px 13px;
+            border-radius: 22px;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-size: 0.73rem;
+            transition: all 0.25s;
+            color: var(--text-secondary);
+        }
+        .btn-chip:hover {
+            border-color: var(--gold-light);
+            color: var(--gold-dark);
+            background: var(--chip-hover-bg);
+        }
+        .btn-chip.selected {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+            font-weight: 600;
+        }
+        .btn-chip.selected::after {
+            content: ' ✓';
+            font-size: 0.65rem;
+        }
+        .color-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+        .color-swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            padding: 5px 3px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            min-width: 44px;
+            position: relative;
+        }
+        .color-swatch:hover {
+            border-color: var(--gold-light);
+            background: var(--accent-bg);
+        }
+        .color-swatch.selected {
+            border-color: var(--gold);
+            background: var(--accent-bg);
+        }
+        .color-swatch.selected::after {
+            content: '✓';
+            position: absolute;
+            top: -6px;
+            right: -4px;
+            background: var(--gold);
+            color: #fff;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            font-size: 0.55rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .color-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--color-swatch-border);
+        }
+        .color-name {
+            font-size: 0.56rem;
+            color: var(--text-secondary);
+            max-width: 54px;
+            text-align: center;
+            line-height: 1.15;
+            word-break: break-all;
+        }
+        .generate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 36px;
+            background: var(--btn-generate-bg);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 6px 24px var(--gold-glow);
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px var(--gold-glow-hover);
+            background: var(--btn-generate-hover);
+        }
+        .scheme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+            gap: 1.3rem;
+            margin-top: 1.5rem;
+        }
+        .scheme-card {
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 1.3rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            animation: fadeInUp 0.5s forwards;
+        }
+        .scheme-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+        .scheme-index {
+            position: absolute;
+            top: 8px;
+            right: 14px;
+            font-family: 'Georgia', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--scheme-index-color);
+        }
+        .scheme-name {
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            z-index: 1;
+            padding-right: 35px;
+        }
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.6rem;
+            font-size: 0.73rem;
+        }
+        .info-tag {
+            background: var(--surface-alt);
+            padding: 3px 9px;
+            border-radius: 14px;
+            font-size: 0.67rem;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        .info-tag.accent {
+            background: var(--accent-bg);
+            color: var(--gold-dark);
+            border-color: var(--accent-bg-border);
+        }
+        .prompt-box {
+            background: var(--prompt-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 0.8rem;
+            padding-right: 75px;
+            font-size: 0.73rem;
+            position: relative;
+            word-break: break-all;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            padding: 6px 14px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        .copy-btn:hover {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+        }
+        .copy-btn.copied {
+            background: #4caf84;
+            color: #fff;
+            border-color: #4caf84;
+        }
+        .collapsible-content {
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .collapsible-content.collapsed {
+            max-height: 280px;
+        }
+        .collapsible-content.expanded {
+            max-height: 50000px;
+        }
+        .collapsible-toggle {
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--gold-dark);
+            font-weight: 600;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width:768px) {
+            .scheme-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -155,14 +490,14 @@
                 <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg>
                 <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
-            <div class="badge">PRO·v4.1·色彩完整版</div>
+            <div class="badge">PRO·v5.0·色彩全库·无必选</div>
         </div>
     </div>
 
     <div class="main-container">
         <div class="hero-section" style="text-align:center;padding:1rem 0 1.5rem;">
             <div class="master-title" style="font-family:'Georgia',serif;font-size:2rem;font-weight:700;">宣传栏智能规划与创意生成引擎</div>
-            <div class="master-subtitle" style="font-size:0.85rem;color:var(--text-muted);">仅生成所选 · 色彩全包含 · 无自动匹配 · 色彩库完整无删减</div>
+            <div class="master-subtitle" style="font-size:0.85rem;color:var(--text-muted);">全部多选可选·色彩完整扩充·无自动匹配·严格按选生成</div>
             <div class="divider-line" style="width:60px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));margin:0.8rem auto;"></div>
         </div>
 
@@ -176,14 +511,14 @@
             <div class="input-group" style="margin-top:0.3rem;"><label>📝 详细设计描述</label><textarea id="customDescription" rows="2" placeholder="详细描述受众、文化元素、环境融合等..."></textarea></div>
         </div>
 
-        <!-- 宣传栏类型自动识别 -->
-        <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>宣传栏类型自动识别</span><span class="section-label">单选必选</span></div><div class="btn-grid" id="typeBtns"><button class="btn-chip" data-val="党建宣传栏">党建宣传栏</button><button class="btn-chip" data-val="企业文化宣传栏">企业文化宣传栏</button><button class="btn-chip" data-val="校园文化宣传栏">校园文化宣传栏</button><button class="btn-chip" data-val="社区宣传栏">社区宣传栏</button><button class="btn-chip selected" data-val="乡村振兴宣传栏">乡村振兴宣传栏</button><button class="btn-chip" data-val="法治宣传栏">法治宣传栏</button><button class="btn-chip" data-val="安全生产宣传栏">安全生产宣传栏</button><button class="btn-chip" data-val="廉政宣传栏">廉政宣传栏</button><button class="btn-chip" data-val="工会宣传栏">工会宣传栏</button><button class="btn-chip" data-val="医院宣传栏">医院宣传栏</button><button class="btn-chip" data-val="军队宣传栏">军队宣传栏</button><button class="btn-chip" data-val="景区宣传栏">景区宣传栏</button><button class="btn-chip" data-val="科普宣传栏">科普宣传栏</button><button class="btn-chip" data-val="环保宣传栏">环保宣传栏</button><button class="btn-chip" data-val="文明城市宣传栏">文明城市宣传栏</button><button class="btn-chip" data-val="民族团结宣传栏">民族团结宣传栏</button><button class="btn-chip" data-val="交通安全宣传栏">交通安全宣传栏</button><button class="btn-chip" data-val="消防宣传栏">消防宣传栏</button><button class="btn-chip" data-val="旅游宣传栏">旅游宣传栏</button><button class="btn-chip" data-val="商业宣传栏">商业宣传栏</button><button class="btn-chip" data-val="招商宣传栏">招商宣传栏</button><button class="btn-chip" data-val="工业园宣传栏">工业园宣传栏</button><button class="btn-chip" data-val="科技园宣传栏">科技园宣传栏</button><button class="btn-chip" data-val="教育宣传栏">教育宣传栏</button></div></div>
+        <!-- 宣传栏类型（多选可选） -->
+        <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>宣传栏类型自动识别</span><span class="section-label">多选可选</span></div><div class="btn-grid" id="typeBtns"><button class="btn-chip" data-val="党建宣传栏">党建宣传栏</button><button class="btn-chip" data-val="企业文化宣传栏">企业文化宣传栏</button><button class="btn-chip" data-val="校园文化宣传栏">校园文化宣传栏</button><button class="btn-chip" data-val="社区宣传栏">社区宣传栏</button><button class="btn-chip" data-val="乡村振兴宣传栏">乡村振兴宣传栏</button><button class="btn-chip" data-val="法治宣传栏">法治宣传栏</button><button class="btn-chip" data-val="安全生产宣传栏">安全生产宣传栏</button><button class="btn-chip" data-val="廉政宣传栏">廉政宣传栏</button><button class="btn-chip" data-val="工会宣传栏">工会宣传栏</button><button class="btn-chip" data-val="医院宣传栏">医院宣传栏</button><button class="btn-chip" data-val="军队宣传栏">军队宣传栏</button><button class="btn-chip" data-val="景区宣传栏">景区宣传栏</button><button class="btn-chip" data-val="科普宣传栏">科普宣传栏</button><button class="btn-chip" data-val="环保宣传栏">环保宣传栏</button><button class="btn-chip" data-val="文明城市宣传栏">文明城市宣传栏</button><button class="btn-chip" data-val="民族团结宣传栏">民族团结宣传栏</button><button class="btn-chip" data-val="交通安全宣传栏">交通安全宣传栏</button><button class="btn-chip" data-val="消防宣传栏">消防宣传栏</button><button class="btn-chip" data-val="旅游宣传栏">旅游宣传栏</button><button class="btn-chip" data-val="商业宣传栏">商业宣传栏</button><button class="btn-chip" data-val="招商宣传栏">招商宣传栏</button><button class="btn-chip" data-val="工业园宣传栏">工业园宣传栏</button><button class="btn-chip" data-val="科技园宣传栏">科技园宣传栏</button><button class="btn-chip" data-val="教育宣传栏">教育宣传栏</button></div></div>
 
-        <!-- 安装环境 -->
-        <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>安装环境自动识别</span><span class="section-label">单选必选</span></div><div class="btn-grid" id="envBtns"><button class="btn-chip" data-val="室外落地式">室外落地式</button><button class="btn-chip" data-val="室内壁挂式">室内壁挂式</button><button class="btn-chip" data-val="长廊宣传栏">长廊宣传栏</button><button class="btn-chip selected" data-val="景观宣传栏">景观宣传栏</button><button class="btn-chip" data-val="广场宣传栏">广场宣传栏</button><button class="btn-chip" data-val="公园宣传栏">公园宣传栏</button><button class="btn-chip" data-val="校园宣传栏">校园宣传栏</button><button class="btn-chip" data-val="社区宣传栏">社区宣传栏</button><button class="btn-chip" data-val="园区宣传栏">园区宣传栏</button><button class="btn-chip" data-val="景区宣传栏">景区宣传栏</button><button class="btn-chip" data-val="街道宣传栏">街道宣传栏</button><button class="btn-chip" data-val="立柱宣传栏">立柱宣传栏</button><button class="btn-chip" data-val="灯箱宣传栏">灯箱宣传栏</button><button class="btn-chip" data-val="橱窗宣传栏">橱窗宣传栏</button><button class="btn-chip" data-val="数字互动宣传栏">数字互动宣传栏</button></div></div>
+        <!-- 安装环境（多选可选） -->
+        <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>安装环境自动识别</span><span class="section-label">多选可选</span></div><div class="btn-grid" id="envBtns"><button class="btn-chip" data-val="室外落地式">室外落地式</button><button class="btn-chip" data-val="室内壁挂式">室内壁挂式</button><button class="btn-chip" data-val="长廊宣传栏">长廊宣传栏</button><button class="btn-chip" data-val="景观宣传栏">景观宣传栏</button><button class="btn-chip" data-val="广场宣传栏">广场宣传栏</button><button class="btn-chip" data-val="公园宣传栏">公园宣传栏</button><button class="btn-chip" data-val="校园宣传栏">校园宣传栏</button><button class="btn-chip" data-val="社区宣传栏">社区宣传栏</button><button class="btn-chip" data-val="园区宣传栏">园区宣传栏</button><button class="btn-chip" data-val="景区宣传栏">景区宣传栏</button><button class="btn-chip" data-val="街道宣传栏">街道宣传栏</button><button class="btn-chip" data-val="立柱宣传栏">立柱宣传栏</button><button class="btn-chip" data-val="灯箱宣传栏">灯箱宣传栏</button><button class="btn-chip" data-val="橱窗宣传栏">橱窗宣传栏</button><button class="btn-chip" data-val="数字互动宣传栏">数字互动宣传栏</button></div></div>
 
-        <!-- 设计定位 -->
-        <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>设计定位自动规划</span><span class="section-label">单选必选</span></div><div class="btn-grid" id="positionBtns"><button class="btn-chip" data-val="主题展示+文化传播">主题展示+文化传播</button><button class="btn-chip selected" data-val="品牌形象+视觉地标">品牌形象+视觉地标</button><button class="btn-chip" data-val="信息发布+公众教育">信息发布+公众教育</button><button class="btn-chip" data-val="互动体验+数字融合">互动体验+数字融合</button><button class="btn-chip" data-val="环境融合+艺术装置">环境融合+艺术装置</button><button class="btn-chip" data-val="历史叙事+文化记忆">历史叙事+文化记忆</button><button class="btn-chip" data-val="导览服务+空间标识">导览服务+空间标识</button></div></div>
+        <!-- 设计定位（多选可选） -->
+        <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>设计定位自动规划</span><span class="section-label">多选可选</span></div><div class="btn-grid" id="positionBtns"><button class="btn-chip" data-val="主题展示+文化传播">主题展示+文化传播</button><button class="btn-chip" data-val="品牌形象+视觉地标">品牌形象+视觉地标</button><button class="btn-chip" data-val="信息发布+公众教育">信息发布+公众教育</button><button class="btn-chip" data-val="互动体验+数字融合">互动体验+数字融合</button><button class="btn-chip" data-val="环境融合+艺术装置">环境融合+艺术装置</button><button class="btn-chip" data-val="历史叙事+文化记忆">历史叙事+文化记忆</button><button class="btn-chip" data-val="导览服务+空间标识">导览服务+空间标识</button></div></div>
 
         <!-- 结构数据库 -->
         <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>宣传栏结构数据库</span><span class="section-label">多选</span></div><div class="btn-grid" id="structureBtns"><button class="btn-chip" data-val="中心对称式">中心对称式</button><button class="btn-chip" data-val="左右分栏式">左右分栏式</button><button class="btn-chip" data-val="上下分层式">上下分层式</button><button class="btn-chip" data-val="三段式布局">三段式布局</button><button class="btn-chip" data-val="四宫格布局">四宫格布局</button><button class="btn-chip" data-val="九宫格布局">九宫格布局</button><button class="btn-chip" data-val="环形布局">环形布局</button><button class="btn-chip" data-val="放射式布局">放射式布局</button><button class="btn-chip" data-val="树状结构布局">树状结构布局</button><button class="btn-chip" data-val="蜂巢结构布局">蜂巢结构布局</button><button class="btn-chip" data-val="书卷展开布局">书卷展开布局</button><button class="btn-chip" data-val="翻书式布局">翻书式布局</button><button class="btn-chip" data-val="时间轴布局">时间轴布局</button><button class="btn-chip" data-val="地图导览布局">地图导览布局</button><button class="btn-chip" data-val="长卷叙事布局">长卷叙事布局</button><button class="btn-chip" data-val="文化墙布局">文化墙布局</button><button class="btn-chip" data-val="门户式布局">门户式布局</button><button class="btn-chip" data-val="牌坊式布局">牌坊式布局</button><button class="btn-chip" data-val="景观融合布局">景观融合布局</button><button class="btn-chip" data-val="艺术装置布局">艺术装置布局</button><button class="btn-chip" data-val="雕塑结合布局">雕塑结合布局</button><button class="btn-chip" data-val="异形创意布局">异形创意布局</button><button class="btn-chip" data-val="模块组合布局">模块组合布局</button><button class="btn-chip" data-val="数字屏融合布局">数字屏融合布局</button><button class="btn-chip" data-val="展馆级布局">展馆级布局</button></div></div>
@@ -194,66 +529,12 @@
         <!-- 风格数据库（折叠） -->
         <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>风格数据库</span><span class="section-label">多选</span><span class="collapsible-toggle" id="styleToggle" onclick="toggleCollapsible('styleContent','styleToggle')">展开全部 ▾</span></div><div class="collapsible-content collapsed" id="styleContent"><div class="btn-grid" id="styleBtns"><button class="btn-chip" data-val="现代简约风">现代简约风</button><button class="btn-chip" data-val="现代极简风">现代极简风</button><button class="btn-chip" data-val="国际极简风">国际极简风</button><button class="btn-chip" data-val="现代商务风">现代商务风</button><button class="btn-chip" data-val="现代轻奢风">现代轻奢风</button><button class="btn-chip" data-val="现代艺术风">现代艺术风</button><button class="btn-chip" data-val="现代几何风">现代几何风</button><button class="btn-chip" data-val="现代科技风">现代科技风</button><button class="btn-chip" data-val="未来科技风">未来科技风</button><button class="btn-chip" data-val="数字未来风">数字未来风</button><button class="btn-chip" data-val="赛博科技风">赛博科技风</button><button class="btn-chip" data-val="赛博朋克风">赛博朋克风</button><button class="btn-chip" data-val="元宇宙科技风">元宇宙科技风</button><button class="btn-chip" data-val="AI人工智能风">AI人工智能风</button><button class="btn-chip" data-val="大数据可视化风">大数据可视化风</button><button class="btn-chip" data-val="智慧城市风">智慧城市风</button><button class="btn-chip" data-val="高端展厅风">高端展厅风</button><button class="btn-chip" data-val="博物馆风">博物馆风</button><button class="btn-chip" data-val="科技馆风">科技馆风</button><button class="btn-chip" data-val="企业展馆风">企业展馆风</button><button class="btn-chip" data-val="规划馆风">规划馆风</button><button class="btn-chip" data-val="文化馆风">文化馆风</button><button class="btn-chip" data-val="美术馆风">美术馆风</button><button class="btn-chip" data-val="艺术展陈风">艺术展陈风</button><button class="btn-chip" data-val="商业展示风">商业展示风</button><button class="btn-chip" data-val="品牌旗舰风">品牌旗舰风</button><button class="btn-chip" data-val="工业风">工业风</button><button class="btn-chip" data-val="重工业风">重工业风</button><button class="btn-chip" data-val="机械工业风">机械工业风</button><button class="btn-chip" data-val="智能制造风">智能制造风</button><button class="btn-chip" data-val="新能源科技风">新能源科技风</button><button class="btn-chip" data-val="航天科技风">航天科技风</button><button class="btn-chip" data-val="航空科技风">航空科技风</button><button class="btn-chip" data-val="海洋科技风">海洋科技风</button><button class="btn-chip" data-val="新中式风">新中式风</button><button class="btn-chip" data-val="新亚洲风">新亚洲风</button><button class="btn-chip" data-val="新东方风">新东方风</button><button class="btn-chip" data-val="东方美学风">东方美学风</button><button class="btn-chip" data-val="禅意风">禅意风</button><button class="btn-chip" data-val="宋式美学风">宋式美学风</button><button class="btn-chip" data-val="唐风风格">唐风风格</button><button class="btn-chip" data-val="汉唐风格">汉唐风格</button><button class="btn-chip" data-val="明清宫廷风">明清宫廷风</button><button class="btn-chip" data-val="国潮风">国潮风</button><button class="btn-chip" data-val="中国传统风">中国传统风</button><button class="btn-chip" data-val="中国文化风">中国文化风</button><button class="btn-chip" data-val="中国红风格">中国红风格</button><button class="btn-chip" data-val="故宫风格">故宫风格</button><button class="btn-chip" data-val="敦煌风格">敦煌风格</button><button class="btn-chip" data-val="丝绸之路风格">丝绸之路风格</button><button class="btn-chip" data-val="非遗文化风格">非遗文化风格</button><button class="btn-chip" data-val="书院文化风格">书院文化风格</button><button class="btn-chip" data-val="徽派风格">徽派风格</button><button class="btn-chip" data-val="苏式园林风格">苏式园林风格</button><button class="btn-chip" data-val="江南园林风格">江南园林风格</button><button class="btn-chip" data-val="岭南风格">岭南风格</button><button class="btn-chip" data-val="海派风格">海派风格</button><button class="btn-chip" data-val="京派风格">京派风格</button><button class="btn-chip" data-val="晋派风格">晋派风格</button><button class="btn-chip" data-val="关中文化风格">关中文化风格</button><button class="btn-chip" data-val="客家文化风格">客家文化风格</button><button class="btn-chip" data-val="藏式文化风格">藏式文化风格</button><button class="btn-chip" data-val="民族文化风格">民族文化风格</button><button class="btn-chip" data-val="边疆文化风格">边疆文化风格</button><button class="btn-chip" data-val="草原文化风格">草原文化风格</button><button class="btn-chip" data-val="黄河文化风格">黄河文化风格</button><button class="btn-chip" data-val="长江文化风格">长江文化风格</button><button class="btn-chip" data-val="海丝文化风格">海丝文化风格</button><button class="btn-chip" data-val="乡村振兴风格">乡村振兴风格</button><button class="btn-chip" data-val="田园生态风格">田园生态风格</button><button class="btn-chip" data-val="自然生态风格">自然生态风格</button><button class="btn-chip" data-val="森林主题风格">森林主题风格</button><button class="btn-chip" data-val="湿地生态风格">湿地生态风格</button><button class="btn-chip" data-val="绿色低碳风格">绿色低碳风格</button><button class="btn-chip" data-val="环保公益风格">环保公益风格</button><button class="btn-chip" data-val="城市更新风格">城市更新风格</button><button class="btn-chip" data-val="文旅融合风格">文旅融合风格</button><button class="btn-chip" data-val="景区导览风格">景区导览风格</button><button class="btn-chip" data-val="红色党建风格">红色党建风格</button><button class="btn-chip" data-val="党建文化风格">党建文化风格</button><button class="btn-chip" data-val="廉政文化风格">廉政文化风格</button><button class="btn-chip" data-val="法治文化风格">法治文化风格</button><button class="btn-chip" data-val="军旅文化风格">军旅文化风格</button><button class="btn-chip" data-val="校园文化风格">校园文化风格</button><button class="btn-chip" data-val="书香校园风格">书香校园风格</button><button class="btn-chip" data-val="青春活力风格">青春活力风格</button><button class="btn-chip" data-val="儿童友好风格">儿童友好风格</button><button class="btn-chip" data-val="社区文化风格">社区文化风格</button><button class="btn-chip" data-val="公益宣传风格">公益宣传风格</button><button class="btn-chip" data-val="文明城市风格">文明城市风格</button><button class="btn-chip" data-val="新时代文明实践风格">新时代文明实践风格</button><button class="btn-chip" data-val="历史文化风格">历史文化风格</button><button class="btn-chip" data-val="复古怀旧风格">复古怀旧风格</button><button class="btn-chip" data-val="工业遗产风格">工业遗产风格</button><button class="btn-chip" data-val="艺术装置风格">艺术装置风格</button><button class="btn-chip" data-val="雕塑景观风格">雕塑景观风格</button><button class="btn-chip" data-val="未来装置风格">未来装置风格</button><button class="btn-chip" data-val="国际大奖风格">国际大奖风格</button><button class="btn-chip" data-val="德国红点风格">德国红点风格</button><button class="btn-chip" data-val="IF设计风格">IF设计风格</button><button class="btn-chip" data-val="建筑事务所风格">建筑事务所风格</button><button class="btn-chip" data-val="扎哈曲线风格">扎哈曲线风格</button><button class="btn-chip" data-val="参数化设计风格">参数化设计风格</button><button class="btn-chip" data-val="解构主义风格">解构主义风格</button><button class="btn-chip" data-val="超现实主义风格">超现实主义风格</button><button class="btn-chip" data-val="极繁主义风格">极繁主义风格</button><button class="btn-chip" data-val="轻法式风格">轻法式风格</button><button class="btn-chip" data-val="现代欧式风格">现代欧式风格</button><button class="btn-chip" data-val="英伦风格">英伦风格</button><button class="btn-chip" data-val="地中海风格">地中海风格</button><button class="btn-chip" data-val="北欧风格">北欧风格</button><button class="btn-chip" data-val="侘寂风格">侘寂风格</button><button class="btn-chip" data-val="高级灰风格">高级灰风格</button></div></div></div>
 
-        <!-- 色彩数据库（完整55+色块，不可减少） -->
+        <!-- 色彩数据库（完整扩充版，不可减少） -->
         <div class="card">
-            <div class="card-header"><span class="card-title"><span class="dot"></span>色彩数据库</span><span class="section-label">色块多选 (55+项完整)</span><span class="collapsible-toggle" id="colorToggle" onclick="toggleCollapsible('colorContent','colorToggle')">展开全部 ▾</span></div>
+            <div class="card-header"><span class="card-title"><span class="dot"></span>色彩数据库</span><span class="section-label">色块多选 (完整扩充·不可删减)</span><span class="collapsible-toggle" id="colorToggle" onclick="toggleCollapsible('colorContent','colorToggle')">展开全部 ▾</span></div>
             <div class="collapsible-content collapsed" id="colorContent">
                 <div class="color-grid" id="colorGrid">
-                    <div class="color-swatch" data-val="中国红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">中国红</span></div>
-                    <div class="color-swatch" data-val="国旗红"><div class="color-circle" style="background:#DE2910;"></div><span class="color-name">国旗红</span></div>
-                    <div class="color-swatch" data-val="党建红"><div class="color-circle" style="background:#B22222;"></div><span class="color-name">党建红</span></div>
-                    <div class="color-swatch" data-val="革命红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">革命红</span></div>
-                    <div class="color-swatch" data-val="故宫红"><div class="color-circle" style="background:#9B1B30;"></div><span class="color-name">故宫红</span></div>
-                    <div class="color-swatch" data-val="宫墙红"><div class="color-circle" style="background:#A52A3D;"></div><span class="color-name">宫墙红</span></div>
-                    <div class="color-swatch" data-val="朱砂红"><div class="color-circle" style="background:#E34A4A;"></div><span class="color-name">朱砂红</span></div>
-                    <div class="color-swatch" data-val="丹霞红"><div class="color-circle" style="background:#C8673A;"></div><span class="color-name">丹霞红</span></div>
-                    <div class="color-swatch" data-val="枫叶红"><div class="color-circle" style="background:#D3543A;"></div><span class="color-name">枫叶红</span></div>
-                    <div class="color-swatch" data-val="珊瑚红"><div class="color-circle" style="background:#E8735A;"></div><span class="color-name">珊瑚红</span></div>
-                    <div class="color-swatch" data-val="酒红色"><div class="color-circle" style="background:#7B1A2B;"></div><span class="color-name">酒红色</span></div>
-                    <div class="color-swatch" data-val="绛红色"><div class="color-circle" style="background:#6B1A1A;"></div><span class="color-name">绛红色</span></div>
-                    <div class="color-swatch" data-val="中国金"><div class="color-circle" style="background:#D4A017;"></div><span class="color-name">中国金</span></div>
-                    <div class="color-swatch" data-val="鎏金色"><div class="color-circle" style="background:#DAA520;"></div><span class="color-name">鎏金色</span></div>
-                    <div class="color-swatch" data-val="香槟金"><div class="color-circle" style="background:#D4B872;"></div><span class="color-name">香槟金</span></div>
-                    <div class="color-swatch" data-val="玫瑰金"><div class="color-circle" style="background:#C89B9B;"></div><span class="color-name">玫瑰金</span></div>
-                    <div class="color-swatch" data-val="古铜金"><div class="color-circle" style="background:#B87333;"></div><span class="color-name">古铜金</span></div>
-                    <div class="color-swatch" data-val="帝王金"><div class="color-circle" style="background:#C9A050;"></div><span class="color-name">帝王金</span></div>
-                    <div class="color-swatch" data-val="党建红金体系"><div class="color-circle" style="background:linear-gradient(135deg,#B22222,#DAA520);"></div><span class="color-name">党建红金</span></div>
-                    <div class="color-swatch" data-val="故宫红金体系"><div class="color-circle" style="background:linear-gradient(135deg,#9B1B30,#DAA520);"></div><span class="color-name">故宫红金</span></div>
-                    <div class="color-swatch" data-val="黑金体系"><div class="color-circle" style="background:#1A1A1A; border:2px solid #DAA520;"></div><span class="color-name">黑金体系</span></div>
-                    <div class="color-swatch" data-val="蓝金体系"><div class="color-circle" style="background:linear-gradient(135deg,#1E3A5F,#DAA520);"></div><span class="color-name">蓝金体系</span></div>
-                    <div class="color-swatch" data-val="科技蓝"><div class="color-circle" style="background:#3A6FB5;"></div><span class="color-name">科技蓝</span></div>
-                    <div class="color-swatch" data-val="深海蓝"><div class="color-circle" style="background:#1B3A5C;"></div><span class="color-name">深海蓝</span></div>
-                    <div class="color-swatch" data-val="天空蓝"><div class="color-circle" style="background:#6BAED6;"></div><span class="color-name">天空蓝</span></div>
-                    <div class="color-swatch" data-val="宝石蓝"><div class="color-circle" style="background:#2C4B7C;"></div><span class="color-name">宝石蓝</span></div>
-                    <div class="color-swatch" data-val="克莱因蓝"><div class="color-circle" style="background:#002FA7;"></div><span class="color-name">克莱因蓝</span></div>
-                    <div class="color-swatch" data-val="电光蓝"><div class="color-circle" style="background:#0088FF;"></div><span class="color-name">电光蓝</span></div>
-                    <div class="color-swatch" data-val="未来蓝"><div class="color-circle" style="background:#00BFFF;"></div><span class="color-name">未来蓝</span></div>
-                    <div class="color-swatch" data-val="赛博蓝"><div class="color-circle" style="background:#00D4FF;"></div><span class="color-name">赛博蓝</span></div>
-                    <div class="color-swatch" data-val="敦煌蓝"><div class="color-circle" style="background:#3C6E8C;"></div><span class="color-name">敦煌蓝</span></div>
-                    <div class="color-swatch" data-val="敦煌青"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">敦煌青</span></div>
-                    <div class="color-swatch" data-val="敦煌赭石"><div class="color-circle" style="background:#C88242;"></div><span class="color-name">敦煌赭石</span></div>
-                    <div class="color-swatch" data-val="敦煌金"><div class="color-circle" style="background:#D4A96A;"></div><span class="color-name">敦煌金</span></div>
-                    <div class="color-swatch" data-val="青绿山水色"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">青绿山水</span></div>
-                    <div class="color-swatch" data-val="石青色"><div class="color-circle" style="background:#4A7C9B;"></div><span class="color-name">石青色</span></div>
-                    <div class="color-swatch" data-val="石绿色"><div class="color-circle" style="background:#5D8C6B;"></div><span class="color-name">石绿色</span></div>
-                    <div class="color-swatch" data-val="竹青色"><div class="color-circle" style="background:#6B9B5A;"></div><span class="color-name">竹青色</span></div>
-                    <div class="color-swatch" data-val="生态绿"><div class="color-circle" style="background:#4A8C5C;"></div><span class="color-name">生态绿</span></div>
-                    <div class="color-swatch" data-val="莫兰迪粉"><div class="color-circle" style="background:#C4AFA0;"></div><span class="color-name">莫兰迪粉</span></div>
-                    <div class="color-swatch" data-val="莫兰迪灰"><div class="color-circle" style="background:#B8A99A;"></div><span class="color-name">莫兰迪灰</span></div>
-                    <div class="color-swatch" data-val="莫兰迪蓝"><div class="color-circle" style="background:#A0B4C8;"></div><span class="color-name">莫兰迪蓝</span></div>
-                    <div class="color-swatch" data-val="高级灰"><div class="color-circle" style="background:#8C8C8C;"></div><span class="color-name">高级灰</span></div>
-                    <div class="color-swatch" data-val="深空灰"><div class="color-circle" style="background:#4A4A4A;"></div><span class="color-name">深空灰</span></div>
-                    <div class="color-swatch" data-val="赛博紫"><div class="color-circle" style="background:#7B2FBE;"></div><span class="color-name">赛博紫</span></div>
-                    <div class="color-swatch" data-val="荧光粉"><div class="color-circle" style="background:#FF1493;"></div><span class="color-name">荧光粉</span></div>
-                    <div class="color-swatch" data-val="荧光蓝"><div class="color-circle" style="background:#00E5FF;"></div><span class="color-name">荧光蓝</span></div>
-                    <div class="color-swatch" data-val="珍珠白"><div class="color-circle" style="background:#FDFDF8; border:2px solid #ddd;"></div><span class="color-name">珍珠白</span></div>
-                    <div class="color-swatch" data-val="象牙白"><div class="color-circle" style="background:#FFFFF0; border:2px solid #ddd;"></div><span class="color-name">象牙白</span></div>
-                    <div class="color-swatch" data-val="工业银"><div class="color-circle" style="background:#C0C5CE;"></div><span class="color-name">工业银</span></div>
-                    <div class="color-swatch" data-val="国潮撞色体系"><div class="color-circle" style="background:linear-gradient(135deg,#D4213D,#1E3A5F);"></div><span class="color-name">国潮撞色</span></div>
-                    <div class="color-swatch" data-val="校园活力色系"><div class="color-circle" style="background:#F5A623;"></div><span class="color-name">校园活力</span></div>
-                    <div class="color-swatch" data-val="徽派黑白灰"><div class="color-circle" style="background:#F5F3EF; border:2px solid #2D2D2D;"></div><span class="color-name">徽派黑白</span></div>
-                    <div class="color-swatch" data-val="北欧风格色系"><div class="color-circle" style="background:#E8E4DF;"></div><span class="color-name">北欧色系</span></div>
-                    <div class="color-swatch" data-val="侘寂风格色系"><div class="color-circle" style="background:#D4C9B8;"></div><span class="color-name">侘寂色系</span></div>
+                    <div class="color-swatch" data-val="朱红"><div class="color-circle" style="background:#E34234;"></div><span class="color-name">朱红</span></div><div class="color-swatch" data-val="中国红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">中国红</span></div><div class="color-swatch" data-val="国旗红"><div class="color-circle" style="background:#DE2910;"></div><span class="color-name">国旗红</span></div><div class="color-swatch" data-val="党建红"><div class="color-circle" style="background:#B22222;"></div><span class="color-name">党建红</span></div><div class="color-swatch" data-val="革命红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">革命红</span></div><div class="color-swatch" data-val="东方红"><div class="color-circle" style="background:#D4302B;"></div><span class="color-name">东方红</span></div><div class="color-swatch" data-val="故宫红"><div class="color-circle" style="background:#9B1B30;"></div><span class="color-name">故宫红</span></div><div class="color-swatch" data-val="宫墙红"><div class="color-circle" style="background:#A52A3D;"></div><span class="color-name">宫墙红</span></div><div class="color-swatch" data-val="胭脂红"><div class="color-circle" style="background:#9B1B30;"></div><span class="color-name">胭脂红</span></div><div class="color-swatch" data-val="珊瑚红"><div class="color-circle" style="background:#E8735A;"></div><span class="color-name">珊瑚红</span></div><div class="color-swatch" data-val="玫瑰红"><div class="color-circle" style="background:#E83D7D;"></div><span class="color-name">玫瑰红</span></div><div class="color-swatch" data-val="酒红"><div class="color-circle" style="background:#7B1A2B;"></div><span class="color-name">酒红</span></div><div class="color-swatch" data-val="绛红"><div class="color-circle" style="background:#6B1A1A;"></div><span class="color-name">绛红</span></div><div class="color-swatch" data-val="大红"><div class="color-circle" style="background:#FF0000;"></div><span class="color-name">大红</span></div><div class="color-swatch" data-val="枣红"><div class="color-circle" style="background:#7B1A2B;"></div><span class="color-name">枣红</span></div><div class="color-swatch" data-val="深红"><div class="color-circle" style="background:#8B0000;"></div><span class="color-name">深红</span></div><div class="color-swatch" data-val="樱桃红"><div class="color-circle" style="background:#C41E3A;"></div><span class="color-name">樱桃红</span></div><div class="color-swatch" data-val="石榴红"><div class="color-circle" style="background:#D4213D;"></div><span class="color-name">石榴红</span></div><div class="color-swatch" data-val="海棠红"><div class="color-circle" style="background:#C65B7C;"></div><span class="color-name">海棠红</span></div><div class="color-swatch" data-val="枫叶红"><div class="color-circle" style="background:#D3543A;"></div><span class="color-name">枫叶红</span></div><div class="color-swatch" data-val="丹霞红"><div class="color-circle" style="background:#C8673A;"></div><span class="color-name">丹霞红</span></div><div class="color-swatch" data-val="霞光红"><div class="color-circle" style="background:#E88A6E;"></div><span class="color-name">霞光红</span></div><div class="color-swatch" data-val="夕阳红"><div class="color-circle" style="background:#E8654A;"></div><span class="color-name">夕阳红</span></div><div class="color-swatch" data-val="砖红"><div class="color-circle" style="background:#B85C3A;"></div><span class="color-name">砖红</span></div><div class="color-swatch" data-val="陶土红"><div class="color-circle" style="background:#C67B5A;"></div><span class="color-name">陶土红</span></div><div class="color-swatch" data-val="赭红"><div class="color-circle" style="background:#A0523C;"></div><span class="color-name">赭红</span></div><div class="color-swatch" data-val="铁锈红"><div class="color-circle" style="background:#8B3A3A;"></div><span class="color-name">铁锈红</span></div><div class="color-swatch" data-val="朱砂红"><div class="color-circle" style="background:#E34A4A;"></div><span class="color-name">朱砂红</span></div><div class="color-swatch" data-val="玛瑙红"><div class="color-circle" style="background:#C0392B;"></div><span class="color-name">玛瑙红</span></div><div class="color-swatch" data-val="宝石红"><div class="color-circle" style="background:#B22222;"></div><span class="color-name">宝石红</span></div><div class="color-swatch" data-val="玫红"><div class="color-circle" style="background:#E83D7D;"></div><span class="color-name">玫红</span></div><div class="color-swatch" data-val="桃红"><div class="color-circle" style="background:#F47983;"></div><span class="color-name">桃红</span></div><div class="color-swatch" data-val="洋红"><div class="color-circle" style="background:#FF1493;"></div><span class="color-name">洋红</span></div><div class="color-swatch" data-val="西瓜红"><div class="color-circle" style="background:#E8736A;"></div><span class="color-name">西瓜红</span></div><div class="color-swatch" data-val="荔枝红"><div class="color-circle" style="background:#D4595A;"></div><span class="color-name">荔枝红</span></div><div class="color-swatch" data-val="草莓红"><div class="color-circle" style="background:#E84040;"></div><span class="color-name">草莓红</span></div><div class="color-swatch" data-val="火焰红"><div class="color-circle" style="background:#E25822;"></div><span class="color-name">火焰红</span></div><div class="color-swatch" data-val="烈焰红"><div class="color-circle" style="background:#F03A17;"></div><span class="color-name">烈焰红</span></div><div class="color-swatch" data-val="龙血红"><div class="color-circle" style="background:#9B1B30;"></div><span class="color-name">龙血红</span></div><div class="color-swatch" data-val="赤金红"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#DAA520);"></div><span class="color-name">赤金红</span></div><div class="color-swatch" data-val="金红配色"><div class="color-circle" style="background:linear-gradient(135deg,#DAA520,#C41E3A);"></div><span class="color-name">金红配色</span></div><div class="color-swatch" data-val="红金配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#DAA520);"></div><span class="color-name">红金配色</span></div><div class="color-swatch" data-val="红黑配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#1A1A1A);"></div><span class="color-name">红黑配色</span></div><div class="color-swatch" data-val="红白配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#FDFDFD);"></div><span class="color-name">红白配色</span></div><div class="color-swatch" data-val="红灰配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#8C8C8C);"></div><span class="color-name">红灰配色</span></div><div class="color-swatch" data-val="红银配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#C0C5CE);"></div><span class="color-name">红银配色</span></div><div class="color-swatch" data-val="红蓝配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#1E3A5F);"></div><span class="color-name">红蓝配色</span></div><div class="color-swatch" data-val="红黄配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#F5A623);"></div><span class="color-name">红黄配色</span></div><div class="color-swatch" data-val="红绿撞色配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#4A8C5C);"></div><span class="color-name">红绿撞色</span></div><div class="color-swatch" data-val="橙红"><div class="color-circle" style="background:#E8762E;"></div><span class="color-name">橙红</span></div><div class="color-swatch" data-val="橘红"><div class="color-circle" style="background:#F07B3F;"></div><span class="color-name">橘红</span></div><div class="color-swatch" data-val="柿子橙"><div class="color-circle" style="background:#F0853F;"></div><span class="color-name">柿子橙</span></div><div class="color-swatch" data-val="南瓜橙"><div class="color-circle" style="background:#F5A050;"></div><span class="color-name">南瓜橙</span></div><div class="color-swatch" data-val="琥珀橙"><div class="color-circle" style="background:#F0A040;"></div><span class="color-name">琥珀橙</span></div><div class="color-swatch" data-val="蜜橙色"><div class="color-circle" style="background:#F5A870;"></div><span class="color-name">蜜橙色</span></div><div class="color-swatch" data-val="落日橙"><div class="color-circle" style="background:#F08050;"></div><span class="color-name">落日橙</span></div><div class="color-swatch" data-val="活力橙"><div class="color-circle" style="background:#FF6600;"></div><span class="color-name">活力橙</span></div><div class="color-swatch" data-val="能量橙"><div class="color-circle" style="background:#FF7F00;"></div><span class="color-name">能量橙</span></div><div class="color-swatch" data-val="橙黄"><div class="color-circle" style="background:#F5A623;"></div><span class="color-name">橙黄</span></div><div class="color-swatch" data-val="金橙"><div class="color-circle" style="background:#F0A830;"></div><span class="color-name">金橙</span></div><div class="color-swatch" data-val="暖橙"><div class="color-circle" style="background:#F5B060;"></div><span class="color-name">暖橙</span></div><div class="color-swatch" data-val="焦糖橙"><div class="color-circle" style="background:#D4883C;"></div><span class="color-name">焦糖橙</span></div><div class="color-swatch" data-val="奶油橙"><div class="color-circle" style="background:#F5CDA0;"></div><span class="color-name">奶油橙</span></div><div class="color-swatch" data-val="杏橙"><div class="color-circle" style="background:#F0C8A0;"></div><span class="color-name">杏橙</span></div><div class="color-swatch" data-val="香槟橙"><div class="color-circle" style="background:#E8C8A0;"></div><span class="color-name">香槟橙</span></div><div class="color-swatch" data-val="蜜桃橙"><div class="color-circle" style="background:#F5BFA0;"></div><span class="color-name">蜜桃橙</span></div><div class="color-swatch" data-val="亮黄"><div class="color-circle" style="background:#FFD700;"></div><span class="color-name">亮黄</span></div><div class="color-swatch" data-val="柠檬黄"><div class="color-circle" style="background:#FFF44F;"></div><span class="color-name">柠檬黄</span></div><div class="color-swatch" data-val="向日葵黄"><div class="color-circle" style="background:#FFDA00;"></div><span class="color-name">向日葵黄</span></div><div class="color-swatch" data-val="油菜花黄"><div class="color-circle" style="background:#FFD800;"></div><span class="color-name">油菜花黄</span></div><div class="color-swatch" data-val="鹅黄"><div class="color-circle" style="background:#FFF5A0;"></div><span class="color-name">鹅黄</span></div><div class="color-swatch" data-val="藤黄"><div class="color-circle" style="background:#F0C040;"></div><span class="color-name">藤黄</span></div><div class="color-swatch" data-val="姜黄"><div class="color-circle" style="background:#D4A030;"></div><span class="color-name">姜黄</span></div><div class="color-swatch" data-val="金黄"><div class="color-circle" style="background:#FFD700;"></div><span class="color-name">金黄</span></div><div class="color-swatch" data-val="明黄"><div class="color-circle" style="background:#FFE600;"></div><span class="color-name">明黄</span></div><div class="color-swatch" data-val="皇家黄"><div class="color-circle" style="background:#F0C030;"></div><span class="color-name">皇家黄</span></div><div class="color-swatch" data-val="帝王黄"><div class="color-circle" style="background:#E8B820;"></div><span class="color-name">帝王黄</span></div><div class="color-swatch" data-val="香槟金"><div class="color-circle" style="background:#D4B872;"></div><span class="color-name">香槟金</span></div><div class="color-swatch" data-val="中国金"><div class="color-circle" style="background:#D4A017;"></div><span class="color-name">中国金</span></div><div class="color-swatch" data-val="鎏金"><div class="color-circle" style="background:#DAA520;"></div><span class="color-name">鎏金</span></div><div class="color-swatch" data-val="赤金"><div class="color-circle" style="background:#D4A030;"></div><span class="color-name">赤金</span></div><div class="color-swatch" data-val="古铜金"><div class="color-circle" style="background:#B87333;"></div><span class="color-name">古铜金</span></div><div class="color-swatch" data-val="玫瑰金"><div class="color-circle" style="background:#C89B9B;"></div><span class="color-name">玫瑰金</span></div><div class="color-swatch" data-val="浅金"><div class="color-circle" style="background:#E8D5A3;"></div><span class="color-name">浅金</span></div><div class="color-swatch" data-val="深金"><div class="color-circle" style="background:#B8942E;"></div><span class="color-name">深金</span></div><div class="color-swatch" data-val="钛金"><div class="color-circle" style="background:#C9B890;"></div><span class="color-name">钛金</span></div><div class="color-swatch" data-val="磨砂金"><div class="color-circle" style="background:#C4A870;"></div><span class="color-name">磨砂金</span></div><div class="color-swatch" data-val="亮金"><div class="color-circle" style="background:#F0D060;"></div><span class="color-name">亮金</span></div><div class="color-swatch" data-val="流光金"><div class="color-circle" style="background:#F5E0A0;"></div><span class="color-name">流光金</span></div><div class="color-swatch" data-val="银杏黄"><div class="color-circle" style="background:#F0D060;"></div><span class="color-name">银杏黄</span></div><div class="color-swatch" data-val="麦穗黄"><div class="color-circle" style="background:#E8C860;"></div><span class="color-name">麦穗黄</span></div><div class="color-swatch" data-val="稻谷黄"><div class="color-circle" style="background:#E0C050;"></div><span class="color-name">稻谷黄</span></div><div class="color-swatch" data-val="土黄"><div class="color-circle" style="background:#C4A050;"></div><span class="color-name">土黄</span></div><div class="color-swatch" data-val="卡其黄"><div class="color-circle" style="background:#C4B090;"></div><span class="color-name">卡其黄</span></div><div class="color-swatch" data-val="奶油黄"><div class="color-circle" style="background:#FFF5D0;"></div><span class="color-name">奶油黄</span></div><div class="color-swatch" data-val="月牙黄"><div class="color-circle" style="background:#FFFAE0;"></div><span class="color-name">月牙黄</span></div><div class="color-swatch" data-val="暖白黄"><div class="color-circle" style="background:#FFFDF0;"></div><span class="color-name">暖白黄</span></div><div class="color-swatch" data-val="竹青"><div class="color-circle" style="background:#6B9B5A;"></div><span class="color-name">竹青</span></div><div class="color-swatch" data-val="翠绿"><div class="color-circle" style="background:#20B060;"></div><span class="color-name">翠绿</span></div><div class="color-swatch" data-val="翡翠绿"><div class="color-circle" style="background:#40B870;"></div><span class="color-name">翡翠绿</span></div><div class="color-swatch" data-val="祖母绿"><div class="color-circle" style="background:#3A8850;"></div><span class="color-name">祖母绿</span></div><div class="color-swatch" data-val="松石绿"><div class="color-circle" style="background:#5BB5A0;"></div><span class="color-name">松石绿</span></div><div class="color-swatch" data-val="森林绿"><div class="color-circle" style="background:#3A6040;"></div><span class="color-name">森林绿</span></div><div class="color-swatch" data-val="深林绿"><div class="color-circle" style="background:#2A4A30;"></div><span class="color-name">深林绿</span></div><div class="color-swatch" data-val="墨绿"><div class="color-circle" style="background:#1A3A2A;"></div><span class="color-name">墨绿</span></div><div class="color-swatch" data-val="军绿"><div class="color-circle" style="background:#5A7040;"></div><span class="color-name">军绿</span></div><div class="color-swatch" data-val="橄榄绿"><div class="color-circle" style="background:#6B7A3A;"></div><span class="color-name">橄榄绿</span></div><div class="color-swatch" data-val="草绿"><div class="color-circle" style="background:#80B050;"></div><span class="color-name">草绿</span></div><div class="color-swatch" data-val="嫩绿"><div class="color-circle" style="background:#A0D060;"></div><span class="color-name">嫩绿</span></div><div class="color-swatch" data-val="春芽绿"><div class="color-circle" style="background:#B8E060;"></div><span class="color-name">春芽绿</span></div><div class="color-swatch" data-val="苹果绿"><div class="color-circle" style="background:#90D040;"></div><span class="color-name">苹果绿</span></div><div class="color-swatch" data-val="薄荷绿"><div class="color-circle" style="background:#80D8B0;"></div><span class="color-name">薄荷绿</span></div><div class="color-swatch" data-val="青柠绿"><div class="color-circle" style="background:#C0E060;"></div><span class="color-name">青柠绿</span></div><div class="color-swatch" data-val="荧光绿"><div class="color-circle" style="background:#00FF40;"></div><span class="color-name">荧光绿</span></div><div class="color-swatch" data-val="科技绿"><div class="color-circle" style="background:#00B878;"></div><span class="color-name">科技绿</span></div><div class="color-swatch" data-val="生态绿"><div class="color-circle" style="background:#4A8C5C;"></div><span class="color-name">生态绿</span></div><div class="color-swatch" data-val="环保绿"><div class="color-circle" style="background:#5B9A6B;"></div><span class="color-name">环保绿</span></div><div class="color-swatch" data-val="新能源绿"><div class="color-circle" style="background:#60C080;"></div><span class="color-name">新能源绿</span></div><div class="color-swatch" data-val="湖水绿"><div class="color-circle" style="background:#60B8A0;"></div><span class="color-name">湖水绿</span></div><div class="color-swatch" data-val="水鸭绿"><div class="color-circle" style="background:#4A9890;"></div><span class="color-name">水鸭绿</span></div><div class="color-swatch" data-val="孔雀绿"><div class="color-circle" style="background:#30A090;"></div><span class="color-name">孔雀绿</span></div><div class="color-swatch" data-val="玉石绿"><div class="color-circle" style="background:#50B890;"></div><span class="color-name">玉石绿</span></div><div class="color-swatch" data-val="竹叶绿"><div class="color-circle" style="background:#5B8C4A;"></div><span class="color-name">竹叶绿</span></div><div class="color-swatch" data-val="青绿色"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">青绿色</span></div><div class="color-swatch" data-val="青绿山水绿"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">青绿山水</span></div><div class="color-swatch" data-val="敦煌绿"><div class="color-circle" style="background:#5B8C7A;"></div><span class="color-name">敦煌绿</span></div><div class="color-swatch" data-val="松柏绿"><div class="color-circle" style="background:#3A5A3A;"></div><span class="color-name">松柏绿</span></div><div class="color-swatch" data-val="苍翠绿"><div class="color-circle" style="background:#408050;"></div><span class="color-name">苍翠绿</span></div><div class="color-swatch" data-val="远山绿"><div class="color-circle" style="background:#5A7A6A;"></div><span class="color-name">远山绿</span></div><div class="color-swatch" data-val="深海绿"><div class="color-circle" style="background:#2A5A4A;"></div><span class="color-name">深海绿</span></div><div class="color-swatch" data-val="薄雾绿"><div class="color-circle" style="background:#B0C8B8;"></div><span class="color-name">薄雾绿</span></div><div class="color-swatch" data-val="天空蓝"><div class="color-circle" style="background:#6BAED6;"></div><span class="color-name">天空蓝</span></div><div class="color-swatch" data-val="天青蓝"><div class="color-circle" style="background:#5B9EC8;"></div><span class="color-name">天青蓝</span></div><div class="color-swatch" data-val="湖蓝"><div class="color-circle" style="background:#40A0C8;"></div><span class="color-name">湖蓝</span></div><div class="color-swatch" data-val="海蓝"><div class="color-circle" style="background:#3A80B8;"></div><span class="color-name">海蓝</span></div><div class="color-swatch" data-val="深海蓝"><div class="color-circle" style="background:#1B3A5C;"></div><span class="color-name">深海蓝</span></div><div class="color-swatch" data-val="宝石蓝"><div class="color-circle" style="background:#2C4B7C;"></div><span class="color-name">宝石蓝</span></div><div class="color-swatch" data-val="皇家蓝"><div class="color-circle" style="background:#1E3A6F;"></div><span class="color-name">皇家蓝</span></div><div class="color-swatch" data-val="克莱因蓝"><div class="color-circle" style="background:#002FA7;"></div><span class="color-name">克莱因蓝</span></div><div class="color-swatch" data-val="科技蓝"><div class="color-circle" style="background:#3A6FB5;"></div><span class="color-name">科技蓝</span></div><div class="color-swatch" data-val="智慧蓝"><div class="color-circle" style="background:#4A90D9;"></div><span class="color-name">智慧蓝</span></div><div class="color-swatch" data-val="未来蓝"><div class="color-circle" style="background:#00BFFF;"></div><span class="color-name">未来蓝</span></div><div class="color-swatch" data-val="赛博蓝"><div class="color-circle" style="background:#00D4FF;"></div><span class="color-name">赛博蓝</span></div><div class="color-swatch" data-val="电光蓝"><div class="color-circle" style="background:#0088FF;"></div><span class="color-name">电光蓝</span></div><div class="color-swatch" data-val="冰川蓝"><div class="color-circle" style="background:#B0D8F0;"></div><span class="color-name">冰川蓝</span></div><div class="color-swatch" data-val="极光蓝"><div class="color-circle" style="background:#40C0D0;"></div><span class="color-name">极光蓝</span></div><div class="color-swatch" data-val="商务蓝"><div class="color-circle" style="background:#2C3E6B;"></div><span class="color-name">商务蓝</span></div><div class="color-swatch" data-val="金融蓝"><div class="color-circle" style="background:#1A3C6D;"></div><span class="color-name">金融蓝</span></div><div class="color-swatch" data-val="海军蓝"><div class="color-circle" style="background:#1A2A4A;"></div><span class="color-name">海军蓝</span></div><div class="color-swatch" data-val="藏蓝"><div class="color-circle" style="background:#1A2A5A;"></div><span class="color-name">藏蓝</span></div><div class="color-swatch" data-val="午夜蓝"><div class="color-circle" style="background:#0A1A3A;"></div><span class="color-name">午夜蓝</span></div><div class="color-swatch" data-val="星空蓝"><div class="color-circle" style="background:#1A2A5A;"></div><span class="color-name">星空蓝</span></div><div class="color-swatch" data-val="宇宙蓝"><div class="color-circle" style="background:#0A0A3A;"></div><span class="color-name">宇宙蓝</span></div><div class="color-swatch" data-val="数据蓝"><div class="color-circle" style="background:#3A6FB5;"></div><span class="color-name">数据蓝</span></div><div class="color-swatch" data-val="数字蓝"><div class="color-circle" style="background:#4A90D9;"></div><span class="color-name">数字蓝</span></div><div class="color-swatch" data-val="敦煌蓝"><div class="color-circle" style="background:#3C6E8C;"></div><span class="color-name">敦煌蓝</span></div><div class="color-swatch" data-val="孔雀蓝"><div class="color-circle" style="background:#2A5A8A;"></div><span class="color-name">孔雀蓝</span></div><div class="color-swatch" data-val="青花瓷蓝"><div class="color-circle" style="background:#4A7C9B;"></div><span class="color-name">青花瓷蓝</span></div><div class="color-swatch" data-val="水墨蓝"><div class="color-circle" style="background:#3A5A7A;"></div><span class="color-name">水墨蓝</span></div><div class="color-swatch" data-val="婴儿蓝"><div class="color-circle" style="background:#B8D8F0;"></div><span class="color-name">婴儿蓝</span></div><div class="color-swatch" data-val="浅蓝"><div class="color-circle" style="background:#ADD8E6;"></div><span class="color-name">浅蓝</span></div><div class="color-swatch" data-val="粉蓝"><div class="color-circle" style="background:#C0D8F0;"></div><span class="color-name">粉蓝</span></div><div class="color-swatch" data-val="灰蓝"><div class="color-circle" style="background:#8098B0;"></div><span class="color-name">灰蓝</span></div><div class="color-swatch" data-val="钢蓝"><div class="color-circle" style="background:#5A7A9A;"></div><span class="color-name">钢蓝</span></div><div class="color-swatch" data-val="牛仔蓝"><div class="color-circle" style="background:#4A6A8A;"></div><span class="color-name">牛仔蓝</span></div><div class="color-swatch" data-val="深蓝"><div class="color-circle" style="background:#1A2A5A;"></div><span class="color-name">深蓝</span></div><div class="color-swatch" data-val="靛蓝"><div class="color-circle" style="background:#2A3A6A;"></div><span class="color-name">靛蓝</span></div><div class="color-swatch" data-val="群青色"><div class="color-circle" style="background:#3A4A8A;"></div><span class="color-name">群青色</span></div><div class="color-swatch" data-val="钴蓝色"><div class="color-circle" style="background:#2A4A9A;"></div><span class="color-name">钴蓝色</span></div><div class="color-swatch" data-val="普鲁士蓝"><div class="color-circle" style="background:#1A3A5A;"></div><span class="color-name">普鲁士蓝</span></div><div class="color-swatch" data-val="丁香紫"><div class="color-circle" style="background:#B8A0D0;"></div><span class="color-name">丁香紫</span></div><div class="color-swatch" data-val="薰衣草紫"><div class="color-circle" style="background:#C8A8E0;"></div><span class="color-name">薰衣草紫</span></div><div class="color-swatch" data-val="葡萄紫"><div class="color-circle" style="background:#6A3A8A;"></div><span class="color-name">葡萄紫</span></div><div class="color-swatch" data-val="深紫"><div class="color-circle" style="background:#4A1A6A;"></div><span class="color-name">深紫</span></div><div class="color-swatch" data-val="皇家紫"><div class="color-circle" style="background:#5A2A8A;"></div><span class="color-name">皇家紫</span></div><div class="color-swatch" data-val="星际紫"><div class="color-circle" style="background:#4A2A8A;"></div><span class="color-name">星际紫</span></div><div class="color-swatch" data-val="未来紫"><div class="color-circle" style="background:#6A3AB0;"></div><span class="color-name">未来紫</span></div><div class="color-swatch" data-val="赛博紫"><div class="color-circle" style="background:#7B2FBE;"></div><span class="color-name">赛博紫</span></div><div class="color-swatch" data-val="电光紫"><div class="color-circle" style="background:#8A40D0;"></div><span class="color-name">电光紫</span></div><div class="color-swatch" data-val="梦幻紫"><div class="color-circle" style="background:#B0A0D8;"></div><span class="color-name">梦幻紫</span></div><div class="color-swatch" data-val="霓虹紫"><div class="color-circle" style="background:#C040E0;"></div><span class="color-name">霓虹紫</span></div><div class="color-swatch" data-val="敦煌紫"><div class="color-circle" style="background:#6A4A8A;"></div><span class="color-name">敦煌紫</span></div><div class="color-swatch" data-val="烟紫"><div class="color-circle" style="background:#9A8AB0;"></div><span class="color-name">烟紫</span></div><div class="color-swatch" data-val="灰紫"><div class="color-circle" style="background:#8A7A9A;"></div><span class="color-name">灰紫</span></div><div class="color-swatch" data-val="藕荷色"><div class="color-circle" style="background:#C0A8B8;"></div><span class="color-name">藕荷色</span></div><div class="color-swatch" data-val="梅子紫"><div class="color-circle" style="background:#8A4A6A;"></div><span class="color-name">梅子紫</span></div><div class="color-swatch" data-val="茄子紫"><div class="color-circle" style="background:#4A2A5A;"></div><span class="color-name">茄子紫</span></div><div class="color-swatch" data-val="绀紫"><div class="color-circle" style="background:#3A2A5A;"></div><span class="color-name">绀紫</span></div><div class="color-swatch" data-val="宝石紫"><div class="color-circle" style="background:#5A2A8A;"></div><span class="color-name">宝石紫</span></div><div class="color-swatch" data-val="紫罗兰色"><div class="color-circle" style="background:#8A6AB0;"></div><span class="color-name">紫罗兰色</span></div><div class="color-swatch" data-val="粉紫色"><div class="color-circle" style="background:#D0A8D8;"></div><span class="color-name">粉紫色</span></div><div class="color-swatch" data-val="浅紫色"><div class="color-circle" style="background:#D8C0E0;"></div><span class="color-name">浅紫色</span></div><div class="color-swatch" data-val="玫瑰紫"><div class="color-circle" style="background:#B86A9A;"></div><span class="color-name">玫瑰紫</span></div><div class="color-swatch" data-val="兰花紫"><div class="color-circle" style="background:#C0A0D8;"></div><span class="color-name">兰花紫</span></div><div class="color-swatch" data-val="珍珠白"><div class="color-circle" style="background:#FDFDF8; border:2px solid #ddd;"></div><span class="color-name">珍珠白</span></div><div class="color-swatch" data-val="象牙白"><div class="color-circle" style="background:#FFFFF0; border:2px solid #ddd;"></div><span class="color-name">象牙白</span></div><div class="color-swatch" data-val="奶油白"><div class="color-circle" style="background:#FFFDF0; border:2px solid #ddd;"></div><span class="color-name">奶油白</span></div><div class="color-swatch" data-val="暖白"><div class="color-circle" style="background:#FFFDF5; border:2px solid #ddd;"></div><span class="color-name">暖白</span></div><div class="color-swatch" data-val="冷白"><div class="color-circle" style="background:#F8FAFF; border:2px solid #ddd;"></div><span class="color-name">冷白</span></div><div class="color-swatch" data-val="月光白"><div class="color-circle" style="background:#F8F8F0; border:2px solid #ddd;"></div><span class="color-name">月光白</span></div><div class="color-swatch" data-val="雪白"><div class="color-circle" style="background:#FFFAFA; border:2px solid #ddd;"></div><span class="color-name">雪白</span></div><div class="color-swatch" data-val="米白"><div class="color-circle" style="background:#F5F0E8; border:2px solid #ddd;"></div><span class="color-name">米白</span></div><div class="color-swatch" data-val="乳白"><div class="color-circle" style="background:#FFFDF5; border:2px solid #ddd;"></div><span class="color-name">乳白</span></div><div class="color-swatch" data-val="玉白"><div class="color-circle" style="background:#F0F8F0; border:2px solid #ddd;"></div><span class="color-name">玉白</span></div><div class="color-swatch" data-val="瓷白"><div class="color-circle" style="background:#FDFDFD; border:2px solid #ddd;"></div><span class="color-name">瓷白</span></div><div class="color-swatch" data-val="银白"><div class="color-circle" style="background:#E8E8E8; border:2px solid #ccc;"></div><span class="color-name">银白</span></div><div class="color-swatch" data-val="珍珠银"><div class="color-circle" style="background:#E0E0D8; border:2px solid #ccc;"></div><span class="color-name">珍珠银</span></div><div class="color-swatch" data-val="金属银"><div class="color-circle" style="background:#C0C5CE;"></div><span class="color-name">金属银</span></div><div class="color-swatch" data-val="工业银"><div class="color-circle" style="background:#B0B5BE;"></div><span class="color-name">工业银</span></div><div class="color-swatch" data-val="未来银"><div class="color-circle" style="background:#D0D5DE;"></div><span class="color-name">未来银</span></div><div class="color-swatch" data-val="科技银"><div class="color-circle" style="background:#C8CDD5;"></div><span class="color-name">科技银</span></div><div class="color-swatch" data-val="拉丝银"><div class="color-circle" style="background:#C0C0C0;"></div><span class="color-name">拉丝银</span></div><div class="color-swatch" data-val="钛银"><div class="color-circle" style="background:#C8C8C8;"></div><span class="color-name">钛银</span></div><div class="color-swatch" data-val="铂金银"><div class="color-circle" style="background:#D0D0D0;"></div><span class="color-name">铂金银</span></div><div class="color-swatch" data-val="冰银"><div class="color-circle" style="background:#E0E5EA;"></div><span class="color-name">冰银</span></div><div class="color-swatch" data-val="香槟银"><div class="color-circle" style="background:#D8C8B0;"></div><span class="color-name">香槟银</span></div><div class="color-swatch" data-val="银灰"><div class="color-circle" style="background:#B0B5BA;"></div><span class="color-name">银灰</span></div><div class="color-swatch" data-val="浅灰"><div class="color-circle" style="background:#C0C0C0;"></div><span class="color-name">浅灰</span></div><div class="color-swatch" data-val="中灰"><div class="color-circle" style="background:#909090;"></div><span class="color-name">中灰</span></div><div class="color-swatch" data-val="深灰"><div class="color-circle" style="background:#5A5A5A;"></div><span class="color-name">深灰</span></div><div class="color-swatch" data-val="高级灰"><div class="color-circle" style="background:#8C8C8C;"></div><span class="color-name">高级灰</span></div><div class="color-swatch" data-val="莫兰迪灰"><div class="color-circle" style="background:#B8A99A;"></div><span class="color-name">莫兰迪灰</span></div><div class="color-swatch" data-val="水泥灰"><div class="color-circle" style="background:#9A9A9A;"></div><span class="color-name">水泥灰</span></div><div class="color-swatch" data-val="岩石灰"><div class="color-circle" style="background:#8A8A80;"></div><span class="color-name">岩石灰</span></div><div class="color-swatch" data-val="深空灰"><div class="color-circle" style="background:#4A4A4A;"></div><span class="color-name">深空灰</span></div><div class="color-swatch" data-val="科技灰"><div class="color-circle" style="background:#7A7D82;"></div><span class="color-name">科技灰</span></div><div class="color-swatch" data-val="未来灰"><div class="color-circle" style="background:#6A6D72;"></div><span class="color-name">未来灰</span></div><div class="color-swatch" data-val="工业灰"><div class="color-circle" style="background:#7A7D82;"></div><span class="color-name">工业灰</span></div><div class="color-swatch" data-val="烟灰"><div class="color-circle" style="background:#9A9A95;"></div><span class="color-name">烟灰</span></div><div class="color-swatch" data-val="炭灰"><div class="color-circle" style="background:#5A5A55;"></div><span class="color-name">炭灰</span></div><div class="color-swatch" data-val="石墨灰"><div class="color-circle" style="background:#4A4A4A;"></div><span class="color-name">石墨灰</span></div><div class="color-swatch" data-val="云雾灰"><div class="color-circle" style="background:#B8B8B0;"></div><span class="color-name">云雾灰</span></div><div class="color-swatch" data-val="珍珠灰"><div class="color-circle" style="background:#C0C0B8;"></div><span class="color-name">珍珠灰</span></div><div class="color-swatch" data-val="冷灰"><div class="color-circle" style="background:#A0A5AA;"></div><span class="color-name">冷灰</span></div><div class="color-swatch" data-val="暖灰"><div class="color-circle" style="background:#B0A8A0;"></div><span class="color-name">暖灰</span></div><div class="color-swatch" data-val="蓝灰"><div class="color-circle" style="background:#8098B0;"></div><span class="color-name">蓝灰</span></div><div class="color-swatch" data-val="绿灰"><div class="color-circle" style="background:#90A898;"></div><span class="color-name">绿灰</span></div><div class="color-swatch" data-val="紫灰"><div class="color-circle" style="background:#A098B0;"></div><span class="color-name">紫灰</span></div><div class="color-swatch" data-val="棕色"><div class="color-circle" style="background:#8B5E3C;"></div><span class="color-name">棕色</span></div><div class="color-swatch" data-val="咖啡色"><div class="color-circle" style="background:#6B4226;"></div><span class="color-name">咖啡色</span></div><div class="color-swatch" data-val="深咖色"><div class="color-circle" style="background:#4A2A18;"></div><span class="color-name">深咖色</span></div><div class="color-swatch" data-val="浅咖色"><div class="color-circle" style="background:#A08060;"></div><span class="color-name">浅咖色</span></div><div class="color-swatch" data-val="胡桃木色"><div class="color-circle" style="background:#6B4A3A;"></div><span class="color-name">胡桃木色</span></div><div class="color-swatch" data-val="原木色"><div class="color-circle" style="background:#C4A882;"></div><span class="color-name">原木色</span></div><div class="color-swatch" data-val="栗棕色"><div class="color-circle" style="background:#8B5A3A;"></div><span class="color-name">栗棕色</span></div><div class="color-swatch" data-val="焦糖棕"><div class="color-circle" style="background:#C4884A;"></div><span class="color-name">焦糖棕</span></div><div class="color-swatch" data-val="摩卡棕"><div class="color-circle" style="background:#8B6B4A;"></div><span class="color-name">摩卡棕</span></div><div class="color-swatch" data-val="巧克力棕"><div class="color-circle" style="background:#5A3A2A;"></div><span class="color-name">巧克力棕</span></div><div class="color-swatch" data-val="泥土棕"><div class="color-circle" style="background:#9A7A5A;"></div><span class="color-name">泥土棕</span></div><div class="color-swatch" data-val="岩石棕"><div class="color-circle" style="background:#8A6A5A;"></div><span class="color-name">岩石棕</span></div><div class="color-swatch" data-val="皮革棕"><div class="color-circle" style="background:#7A5A3A;"></div><span class="color-name">皮革棕</span></div><div class="color-swatch" data-val="复古棕"><div class="color-circle" style="background:#8B5E3C;"></div><span class="color-name">复古棕</span></div><div class="color-swatch" data-val="红木色"><div class="color-circle" style="background:#6B3A3A;"></div><span class="color-name">红木色</span></div><div class="color-swatch" data-val="乌木色"><div class="color-circle" style="background:#3A2A1A;"></div><span class="color-name">乌木色</span></div><div class="color-swatch" data-val="檀木色"><div class="color-circle" style="background:#5A3A2A;"></div><span class="color-name">檀木色</span></div><div class="color-swatch" data-val="榉木色"><div class="color-circle" style="background:#C4A67D;"></div><span class="color-name">榉木色</span></div><div class="color-swatch" data-val="竹木色"><div class="color-circle" style="background:#C4B890;"></div><span class="color-name">竹木色</span></div><div class="color-swatch" data-val="沙色"><div class="color-circle" style="background:#D4C4A0;"></div><span class="color-name">沙色</span></div><div class="color-swatch" data-val="米色"><div class="color-circle" style="background:#F5F0E0;"></div><span class="color-name">米色</span></div><div class="color-swatch" data-val="卡其色"><div class="color-circle" style="background:#C4B090;"></div><span class="color-name">卡其色</span></div><div class="color-swatch" data-val="驼色"><div class="color-circle" style="background:#C4A880;"></div><span class="color-name">驼色</span></div><div class="color-swatch" data-val="奶茶色"><div class="color-circle" style="background:#D4C0A0;"></div><span class="color-name">奶茶色</span></div><div class="color-swatch" data-val="燕麦色"><div class="color-circle" style="background:#E0D4B8;"></div><span class="color-name">燕麦色</span></div><div class="color-swatch" data-val="亚麻色"><div class="color-circle" style="background:#D8C8A8;"></div><span class="color-name">亚麻色</span></div><div class="color-swatch" data-val="香槟色"><div class="color-circle" style="background:#E8D5A3;"></div><span class="color-name">香槟色</span></div><div class="color-swatch" data-val="暖沙色"><div class="color-circle" style="background:#E0D0B8;"></div><span class="color-name">暖沙色</span></div><div class="color-swatch" data-val="冷沙色"><div class="color-circle" style="background:#D8D0C0;"></div><span class="color-name">冷沙色</span></div><div class="color-swatch" data-val="黑色"><div class="color-circle" style="background:#1A1A1A;"></div><span class="color-name">黑色</span></div><div class="color-swatch" data-val="纯黑"><div class="color-circle" style="background:#000000;"></div><span class="color-name">纯黑</span></div><div class="color-swatch" data-val="曜石黑"><div class="color-circle" style="background:#0A0A0A;"></div><span class="color-name">曜石黑</span></div><div class="color-swatch" data-val="钢琴黑"><div class="color-circle" style="background:#0D0D0D;"></div><span class="color-name">钢琴黑</span></div><div class="color-swatch" data-val="炭黑"><div class="color-circle" style="background:#2A2A2A;"></div><span class="color-name">炭黑</span></div><div class="color-swatch" data-val="墨黑"><div class="color-circle" style="background:#1A1A1A;"></div><span class="color-name">墨黑</span></div><div class="color-swatch" data-val="深空黑"><div class="color-circle" style="background:#0A0E17;"></div><span class="color-name">深空黑</span></div><div class="color-swatch" data-val="商务黑"><div class="color-circle" style="background:#1A1A1A;"></div><span class="color-name">商务黑</span></div><div class="color-swatch" data-val="科技黑"><div class="color-circle" style="background:#1A1D22;"></div><span class="color-name">科技黑</span></div><div class="color-swatch" data-val="未来黑"><div class="color-circle" style="background:#0D0D1A;"></div><span class="color-name">未来黑</span></div><div class="color-swatch" data-val="哑光黑"><div class="color-circle" style="background:#2A2A2A;"></div><span class="color-name">哑光黑</span></div><div class="color-swatch" data-val="磨砂黑"><div class="color-circle" style="background:#333333;"></div><span class="color-name">磨砂黑</span></div><div class="color-swatch" data-val="黑金配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A1A1A,#DAA520);"></div><span class="color-name">黑金配色</span></div><div class="color-swatch" data-val="黑银配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A1A1A,#C0C5CE);"></div><span class="color-name">黑银配色</span></div><div class="color-swatch" data-val="黑红配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A1A1A,#C41E3A);"></div><span class="color-name">黑红配色</span></div><div class="color-swatch" data-val="黑蓝配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A1A1A,#1E3A5F);"></div><span class="color-name">黑蓝配色</span></div><div class="color-swatch" data-val="黑紫配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A1A1A,#4A2A8A);"></div><span class="color-name">黑紫配色</span></div><div class="color-swatch" data-val="赛博霓虹配色"><div class="color-circle" style="background:linear-gradient(135deg,#FF00A0,#00D4FF);"></div><span class="color-name">赛博霓虹</span></div><div class="color-swatch" data-val="未来科技配色"><div class="color-circle" style="background:linear-gradient(135deg,#00BFFF,#7B2FBE);"></div><span class="color-name">未来科技</span></div><div class="color-swatch" data-val="数字科技配色"><div class="color-circle" style="background:linear-gradient(135deg,#3A6FB5,#00D4FF);"></div><span class="color-name">数字科技</span></div><div class="color-swatch" data-val="AI智能配色"><div class="color-circle" style="background:linear-gradient(135deg,#4A90D9,#C040E0);"></div><span class="color-name">AI智能</span></div><div class="color-swatch" data-val="元宇宙配色"><div class="color-circle" style="background:linear-gradient(135deg,#7B2FBE,#00D4FF);"></div><span class="color-name">元宇宙</span></div><div class="color-swatch" data-val="电竞科技配色"><div class="color-circle" style="background:linear-gradient(135deg,#FF1493,#00E5FF);"></div><span class="color-name">电竞科技</span></div><div class="color-swatch" data-val="中国风配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#DAA520);"></div><span class="color-name">中国风</span></div><div class="color-swatch" data-val="国潮配色"><div class="color-circle" style="background:linear-gradient(135deg,#D4213D,#1E3A5F);"></div><span class="color-name">国潮配色</span></div><div class="color-swatch" data-val="新中式配色"><div class="color-circle" style="background:linear-gradient(135deg,#9B1B30,#D4B872);"></div><span class="color-name">新中式</span></div><div class="color-swatch" data-val="敦煌配色"><div class="color-circle" style="background:linear-gradient(135deg,#C88242,#3C6E8C);"></div><span class="color-name">敦煌配色</span></div><div class="color-swatch" data-val="青绿山水配色"><div class="color-circle" style="background:linear-gradient(135deg,#5B8C7A,#D4B872);"></div><span class="color-name">青绿山水</span></div><div class="color-swatch" data-val="故宫配色"><div class="color-circle" style="background:linear-gradient(135deg,#9B1B30,#DAA520);"></div><span class="color-name">故宫配色</span></div><div class="color-swatch" data-val="丝路敦煌配色"><div class="color-circle" style="background:linear-gradient(135deg,#C88242,#5B8C7A);"></div><span class="color-name">丝路敦煌</span></div><div class="color-swatch" data-val="徽派黑白灰配色"><div class="color-circle" style="background:linear-gradient(135deg,#F5F3EF,#2D2D2D);"></div><span class="color-name">徽派黑白</span></div><div class="color-swatch" data-val="江南水乡配色"><div class="color-circle" style="background:linear-gradient(135deg,#7BA686,#F5F0E8);"></div><span class="color-name">江南水乡</span></div><div class="color-swatch" data-val="岭南文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#C73E3A,#5D8A68);"></div><span class="color-name">岭南文化</span></div><div class="color-swatch" data-val="海派文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#3C5F8A,#E8C97A);"></div><span class="color-name">海派文化</span></div><div class="color-swatch" data-val="苏式园林配色"><div class="color-circle" style="background:linear-gradient(135deg,#7BA686,#F7F4F0);"></div><span class="color-name">苏式园林</span></div><div class="color-swatch" data-val="皇家宫廷配色"><div class="color-circle" style="background:linear-gradient(135deg,#9B1B30,#DAA520);"></div><span class="color-name">皇家宫廷</span></div><div class="color-swatch" data-val="非遗文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#8B5E3C,#D4A96A);"></div><span class="color-name">非遗文化</span></div><div class="color-swatch" data-val="民族文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#C41E3A,#3A6FB5);"></div><span class="color-name">民族文化</span></div><div class="color-swatch" data-val="红色党建配色"><div class="color-circle" style="background:linear-gradient(135deg,#B22222,#DAA520);"></div><span class="color-name">红色党建</span></div><div class="color-swatch" data-val="廉政文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#2C3E6B,#DAA520);"></div><span class="color-name">廉政文化</span></div><div class="color-swatch" data-val="法治文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#1E3A5F,#C0C5CE);"></div><span class="color-name">法治文化</span></div><div class="color-swatch" data-val="军旅文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#4A6A4A,#C4A050);"></div><span class="color-name">军旅文化</span></div><div class="color-swatch" data-val="校园文化配色"><div class="color-circle" style="background:linear-gradient(135deg,#F5A623,#4A90D9);"></div><span class="color-name">校园文化</span></div><div class="color-swatch" data-val="儿童活力配色"><div class="color-circle" style="background:linear-gradient(135deg,#FF6600,#00D4FF);"></div><span class="color-name">儿童活力</span></div><div class="color-swatch" data-val="文旅景区配色"><div class="color-circle" style="background:linear-gradient(135deg,#5B8C7A,#D4B872);"></div><span class="color-name">文旅景区</span></div><div class="color-swatch" data-val="乡村振兴配色"><div class="color-circle" style="background:linear-gradient(135deg,#4A8C5C,#F5A623);"></div><span class="color-name">乡村振兴</span></div><div class="color-swatch" data-val="生态环保配色"><div class="color-circle" style="background:linear-gradient(135deg,#4A8C5C,#6BAED6);"></div><span class="color-name">生态环保</span></div><div class="color-swatch" data-val="智慧城市配色"><div class="color-circle" style="background:linear-gradient(135deg,#3A6FB5,#00BFFF);"></div><span class="color-name">智慧城市</span></div><div class="color-swatch" data-val="工业制造配色"><div class="color-circle" style="background:linear-gradient(135deg,#7A7D82,#F07B3F);"></div><span class="color-name">工业制造</span></div><div class="color-swatch" data-val="新能源产业配色"><div class="color-circle" style="background:linear-gradient(135deg,#4A8C5C,#00BFFF);"></div><span class="color-name">新能源</span></div><div class="color-swatch" data-val="医疗健康配色"><div class="color-circle" style="background:linear-gradient(135deg,#FFFFFF,#4A90D9);"></div><span class="color-name">医疗健康</span></div><div class="color-swatch" data-val="金融商务配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A3C6D,#C9A050);"></div><span class="color-name">金融商务</span></div><div class="color-swatch" data-val="高端商务配色"><div class="color-circle" style="background:linear-gradient(135deg,#1A1A1A,#C9A050);"></div><span class="color-name">高端商务</span></div><div class="color-swatch" data-val="国际极简配色"><div class="color-circle" style="background:linear-gradient(135deg,#FDFDFD,#2D2D2D);"></div><span class="color-name">国际极简</span></div><div class="color-swatch" data-val="现代轻奢配色"><div class="color-circle" style="background:linear-gradient(135deg,#D4B872,#1A1A1A);"></div><span class="color-name">现代轻奢</span></div><div class="color-swatch" data-val="艺术展陈配色"><div class="color-circle" style="background:linear-gradient(135deg,#F5F3EF,#8C8C8C);"></div><span class="color-name">艺术展陈</span></div><div class="color-swatch" data-val="博物馆配色"><div class="color-circle" style="background:linear-gradient(135deg,#3A3A3A,#C4A882);"></div><span class="color-name">博物馆</span></div><div class="color-swatch" data-val="展厅展示配色"><div class="color-circle" style="background:linear-gradient(135deg,#FDFDFD,#8C8C8C);"></div><span class="color-name">展厅展示</span></div>
                 </div>
             </div>
         </div>
@@ -264,9 +545,7 @@
         <!-- 文化元素数据库 + 自定义输入 -->
         <div class="card">
             <div class="card-header"><span class="card-title"><span class="dot"></span>文化元素数据库</span><span class="section-label">多选</span><span class="collapsible-toggle" id="cultureToggle" onclick="toggleCollapsible('cultureContent','cultureToggle')">展开全部 ▾</span></div>
-            <div class="collapsible-content collapsed" id="cultureContent">
-                <div class="btn-grid" id="cultureBtns"><button class="btn-chip" data-val="党徽">党徽</button><button class="btn-chip" data-val="国旗">国旗</button><button class="btn-chip" data-val="长城">长城</button><button class="btn-chip" data-val="和平鸽">和平鸽</button><button class="btn-chip" data-val="红船">红船</button><button class="btn-chip" data-val="中国梦">中国梦</button><button class="btn-chip" data-val="书本">书本</button><button class="btn-chip" data-val="齿轮">齿轮</button><button class="btn-chip" data-val="芯片">芯片</button><button class="btn-chip" data-val="火箭">火箭</button><button class="btn-chip" data-val="高铁">高铁</button><button class="btn-chip" data-val="地球">地球</button><button class="btn-chip" data-val="水滴">水滴</button><button class="btn-chip" data-val="树叶">树叶</button><button class="btn-chip" data-val="梯田">梯田</button><button class="btn-chip" data-val="稻田">稻田</button><button class="btn-chip" data-val="麦穗">麦穗</button><button class="btn-chip" data-val="祥云">祥云</button><button class="btn-chip" data-val="龙纹">龙纹</button><button class="btn-chip" data-val="莲花">莲花</button><button class="btn-chip" data-val="山水画">山水画</button><button class="btn-chip" data-val="敦煌飞天">敦煌飞天</button><button class="btn-chip" data-val="中国结">中国结</button><button class="btn-chip" data-val="青花瓷">青花瓷</button><button class="btn-chip" data-val="天平">天平</button><button class="btn-chip" data-val="盾牌">盾牌</button><button class="btn-chip" data-val="城市天际线">城市天际线</button></div>
-            </div>
+            <div class="collapsible-content collapsed" id="cultureContent"><div class="btn-grid" id="cultureBtns"><button class="btn-chip" data-val="党徽">党徽</button><button class="btn-chip" data-val="国旗">国旗</button><button class="btn-chip" data-val="长城">长城</button><button class="btn-chip" data-val="和平鸽">和平鸽</button><button class="btn-chip" data-val="红船">红船</button><button class="btn-chip" data-val="中国梦">中国梦</button><button class="btn-chip" data-val="书本">书本</button><button class="btn-chip" data-val="齿轮">齿轮</button><button class="btn-chip" data-val="芯片">芯片</button><button class="btn-chip" data-val="火箭">火箭</button><button class="btn-chip" data-val="高铁">高铁</button><button class="btn-chip" data-val="地球">地球</button><button class="btn-chip" data-val="水滴">水滴</button><button class="btn-chip" data-val="树叶">树叶</button><button class="btn-chip" data-val="梯田">梯田</button><button class="btn-chip" data-val="稻田">稻田</button><button class="btn-chip" data-val="麦穗">麦穗</button><button class="btn-chip" data-val="祥云">祥云</button><button class="btn-chip" data-val="龙纹">龙纹</button><button class="btn-chip" data-val="莲花">莲花</button><button class="btn-chip" data-val="山水画">山水画</button><button class="btn-chip" data-val="敦煌飞天">敦煌飞天</button><button class="btn-chip" data-val="中国结">中国结</button><button class="btn-chip" data-val="青花瓷">青花瓷</button><button class="btn-chip" data-val="天平">天平</button><button class="btn-chip" data-val="盾牌">盾牌</button><button class="btn-chip" data-val="城市天际线">城市天际线</button></div></div>
             <div class="input-group" style="margin-top:0.8rem;"><label>📝 自定义文化元素（逗号分隔）</label><input type="text" id="customCulture" placeholder="例如：高铁站、风力发电机、地方特产..."></div>
         </div>
 
@@ -283,23 +562,13 @@
         <div class="card"><div class="card-header"><span class="card-title"><span class="dot"></span>尺寸数据库</span><span class="section-label">多选+自定义</span></div><div class="btn-grid" id="sizeBtns"><button class="btn-chip" data-val="1200×2400mm">1200×2400mm</button><button class="btn-chip" data-val="1500×3000mm">1500×3000mm</button><button class="btn-chip" data-val="1800×3600mm">1800×3600mm</button><button class="btn-chip" data-val="2000×4000mm">2000×4000mm</button><button class="btn-chip" data-val="2400×4800mm">2400×4800mm</button><button class="btn-chip" data-val="3000×6000mm">3000×6000mm</button><button class="btn-chip" data-val="4000×8000mm">4000×8000mm</button></div><div class="input-group" style="margin-top:0.5rem;"><label>📏 自定义尺寸（逗号分隔）</label><input type="text" id="customSize" placeholder="2500×5000mm, 3500×7000mm"></div></div>
 
         <div style="text-align:center;padding:1.5rem 0;">
-            <button class="generate-btn" onclick="generateSchemes()">✦ 生成20组方案（色彩完整·仅选所显）</button>
+            <button class="generate-btn" onclick="generateSchemes()">✦ 生成20组方案（严格按选生成·色彩全包含）</button>
         </div>
 
         <div id="schemesContainer" class="scheme-grid"></div>
     </div>
 
     <script>
-        function initSingleSelect(gid) {
-            const c = document.getElementById(gid);
-            if (!c) return;
-            c.addEventListener('click', e => {
-                const b = e.target.closest('.btn-chip');
-                if (!b) return;
-                c.querySelectorAll('.btn-chip').forEach(x => x.classList.remove('selected'));
-                b.classList.add('selected');
-            });
-        }
         function initMultiSelect(gid) {
             const c = document.getElementById(gid);
             if (!c) return;
@@ -308,11 +577,6 @@
                 if (!b) return;
                 b.classList.toggle('selected');
             });
-        }
-        function getSelSingle(gid) {
-            const c = document.getElementById(gid);
-            const s = c?.querySelector('.btn-chip.selected');
-            return s ? s.getAttribute('data-val') : '';
         }
         function getSelMulti(gid) {
             const c = document.getElementById(gid);
@@ -323,20 +587,24 @@
             return c ? Array.from(c.querySelectorAll('.color-swatch.selected')).map(s => s.getAttribute('data-val')) : [];
         }
         function toggleCollapsible(cid, tid) {
-            const content = document.getElementById(cid), toggle = document.getElementById(tid);
+            const content = document.getElementById(cid),
+                toggle = document.getElementById(tid);
             if (!content || !toggle) return;
             if (content.classList.contains('collapsed')) {
-                content.classList.remove('collapsed'); content.classList.add('expanded');
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
                 toggle.innerHTML = '收起 ▴';
             } else {
-                content.classList.add('collapsed'); content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                content.classList.remove('expanded');
                 toggle.innerHTML = '展开全部 ▾';
             }
         }
         function initTheme() {
             const btn = document.getElementById('themeToggleBtn');
             const saved = localStorage.getItem('billboard-theme');
-            document.documentElement.setAttribute('data-theme', saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+            document.documentElement.setAttribute('data-theme', saved || (window.matchMedia(
+                '(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
             btn.addEventListener('click', () => {
                 const cur = document.documentElement.getAttribute('data-theme');
                 const next = cur === 'dark' ? 'light' : 'dark';
@@ -348,9 +616,9 @@
         let globalPrompts = [];
 
         function generateSchemes() {
-            const type = getSelSingle('typeBtns') || '乡村振兴宣传栏';
-            const env = getSelSingle('envBtns') || '景观宣传栏';
-            const pos = getSelSingle('positionBtns') || '品牌形象+视觉地标';
+            const types = getSelMulti('typeBtns');
+            const envs = getSelMulti('envBtns');
+            const positions = getSelMulti('positionBtns');
             const theme = document.getElementById('customTheme')?.value?.trim() || '';
             const notes = document.getElementById('customNotes')?.value?.trim() || '';
             const desc = document.getElementById('customDescription')?.value?.trim() || '';
@@ -365,14 +633,18 @@
             const materials = getSelMulti('materialBtns');
             const crafts = getSelMulti('craftBtns');
             const lights = getSelMulti('lightBtns');
-            const sizes = [...getSelMulti('sizeBtns'), ...(customSizeStr ? customSizeStr.split(/[,，、]+/).filter(Boolean) : [])];
+            const sizes = [...getSelMulti('sizeBtns'), ...(customSizeStr ? customSizeStr.split(/[,，、]+/).filter(Boolean) :
+                [])];
             const colors = getSelColors();
 
-            const customCultures = customCultureStr ? customCultureStr.split(/[,，、]+/).map(s => s.trim()).filter(Boolean) : [];
+            const customCultures = customCultureStr ? customCultureStr.split(/[,，、]+/).map(s => s.trim()).filter(
+                Boolean) : [];
 
             function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-            const visualLogics = ['焦点放射式','Z型阅读动线','F型扫描','分层递进','对称均衡','对角线动态','螺旋递进','网格矩阵','悬浮分层','隧道纵深','瀑布流','拼图组合','涟漪扩散','书架平行','舞台聚光','折页展开','星空散布','齿轮咬合','波浪律动','晶格结构'];
+            const visualLogics = ['焦点放射式', 'Z型阅读动线', 'F型扫描', '分层递进', '对称均衡', '对角线动态', '螺旋递进', '网格矩阵', '悬浮分层', '隧道纵深', '瀑布流',
+                '拼图组合', '涟漪扩散', '书架平行', '舞台聚光', '折页展开', '星空散布', '齿轮咬合', '波浪律动', '晶格结构'
+            ];
 
             const container = document.getElementById('schemesContainer');
             globalPrompts = [];
@@ -388,6 +660,9 @@
                 const light = lights.length ? rand(lights) : null;
                 const size = sizes.length ? rand(sizes) : null;
                 const colorStr = colors.length ? colors.join('+') : null;
+                const typeStr = types.length ? types.join('+') : null;
+                const envStr = envs.length ? envs.join('+') : null;
+                const posStr = positions.length ? positions.join('+') : null;
 
                 let cultureFinal = '';
                 const pickedCulture = cultures.length ? rand(cultures) : '';
@@ -396,7 +671,7 @@
                 else if (pickedCulture) cultureFinal = pickedCulture;
                 else if (customPart) cultureFinal = customPart;
 
-                const name = theme ? `${theme}·方案${i+1}` : `【方案${i+1}】${type}·正面展示设计`;
+                const name = theme ? `${theme}·方案${i+1}` : `【方案${i+1}】宣传栏·正面展示设计`;
 
                 let prompt = `超高清宣传栏正面渲染图：${name}，完全正面视角，正视角度`;
                 if (style) prompt += `，${style}`;
@@ -408,7 +683,9 @@
                 if (font) prompt += `，标题字体：${font}`;
                 if (cultureFinal) prompt += `，文化元素：${cultureFinal}`;
                 if (light) prompt += `，灯光：${light}`;
-                prompt += `，安装环境：${env}，设计定位：${pos}，${type}类型`;
+                if (envStr) prompt += `，安装环境：${envStr}`;
+                if (posStr) prompt += `，设计定位：${posStr}`;
+                if (typeStr) prompt += `，${typeStr}类型`;
                 if (size) prompt += `，尺寸：${size}`;
                 if (notes) prompt += `，补充：${notes}`;
                 if (desc) prompt += `，详细描述：${desc}`;
@@ -423,11 +700,15 @@
                 if (font) tags1 += `<span class="info-tag">🖊 ${font}</span>`;
                 if (size) tags1 += `<span class="info-tag">📐 ${size}</span>`;
 
-                let tags2 = `<span class="info-tag accent">🎯 ${pos}</span><span class="info-tag">📍 ${env}</span><span class="info-tag">🏷 ${type}</span>`;
+                let tags2 = '';
+                if (posStr) tags2 += `<span class="info-tag accent">🎯 ${posStr}</span>`;
+                if (envStr) tags2 += `<span class="info-tag">📍 ${envStr}</span>`;
+                if (typeStr) tags2 += `<span class="info-tag">🏷 ${typeStr}</span>`;
 
                 let detailLines = `<strong>视觉逻辑：</strong>${visualLogics[i]}<br>`;
                 if (cultureFinal) detailLines += `<strong>文化元素：</strong>${cultureFinal}<br>`;
-                if (material || craft) detailLines += `<strong>材质工艺：</strong>${material||''}${material&&craft?' + ':''}${craft||''}<br>`;
+                if (material || craft) detailLines +=
+                    `<strong>材质工艺：</strong>${material||''}${material&&craft?' + ':''}${craft||''}<br>`;
                 if (colorStr) detailLines += `<strong>色彩：</strong>${colorStr}<br>`;
                 if (light) detailLines += `<strong>灯光：</strong>${light}<br>`;
 
@@ -456,26 +737,38 @@
                 navigator.clipboard.writeText(text).then(() => showOk(btn)).catch(() => fallbackCopy(text, btn));
             } else fallbackCopy(text, btn);
         }
+
         function fallbackCopy(text, btn) {
             const ta = document.createElement('textarea');
-            ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
-            document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); showOk(btn); } catch(e) { showFail(btn); }
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy');
+                showOk(btn); } catch (e) { showFail(btn); }
             document.body.removeChild(ta);
         }
+
         function showOk(btn) {
-            btn.textContent = '✅ 已复制'; btn.classList.add('copied');
-            clearTimeout(btn._t); btn._t = setTimeout(() => { btn.textContent = '📋 复制提示词'; btn.classList.remove('copied'); }, 2000);
+            btn.textContent = '✅ 已复制';
+            btn.classList.add('copied');
+            clearTimeout(btn._t);
+            btn._t = setTimeout(() => { btn.textContent = '📋 复制提示词';
+                btn.classList.remove('copied'); }, 2000);
         }
+
         function showFail(btn) {
-            btn.textContent = '⚠ 重试'; clearTimeout(btn._t);
+            btn.textContent = '⚠ 重试';
+            clearTimeout(btn._t);
             btn._t = setTimeout(() => { btn.textContent = '📋 复制提示词'; }, 2000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
-            ['typeBtns','envBtns','positionBtns'].forEach(initSingleSelect);
-            ['structureBtns','shapeBtns','styleBtns','fontBtns','cultureBtns','materialBtns','craftBtns','lightBtns','sizeBtns'].forEach(initMultiSelect);
+            ['typeBtns', 'envBtns', 'positionBtns', 'structureBtns', 'shapeBtns', 'styleBtns', 'fontBtns', 'cultureBtns',
+                'materialBtns', 'craftBtns', 'lightBtns', 'sizeBtns'
+            ].forEach(initMultiSelect);
             document.getElementById('colorGrid')?.addEventListener('click', e => {
                 const sw = e.target.closest('.color-swatch');
                 if (sw) sw.classList.toggle('selected');
